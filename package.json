@@ -1,11 +1,12 @@
 {
   "name": "zeroup-media",
   "version": "0.1.0",
-  "private": true,
+  "description": "ZEROUP — Content & Distribution Infrastructure Studio",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "serve": "npx serve -l 3000 .",
     "lint": "next lint"
   },
   "dependencies": {
