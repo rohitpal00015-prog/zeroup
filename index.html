@@ -1,0 +1,1479 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ZEROUP — Content & Distribution Company | Prayagraj</title>
+  <!-- Favicon & Vector Brand Icon -->
+  <link rel="icon" type="image/svg+xml" href="/zeroup-icon.svg" />
+  <link rel="apple-touch-icon" href="/zeroup-logo.png" />
+  <meta name="description" content="We build content systems for brands, founders and creators — from strategy and storytelling to production, distribution and media IP." />
+
+  <!-- Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            bg: '#08090C',
+            surface: '#0F1117',
+            surfaceHover: '#161922',
+            accent: '#D4FF00', // Electric Signal Lime
+            accentHover: '#E2FF33',
+            border: 'rgba(255, 255, 255, 0.08)',
+            borderLight: 'rgba(255, 255, 255, 0.14)',
+            textPrimary: '#FFFFFF',
+            textSecondary: '#94A3B8',
+            textMuted: '#64748B'
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            display: ['"Space Grotesk"', '"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+            hand: ['"Caveat"', 'cursive']
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- GSAP for Smooth Studio Animations & Page Transitions -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <!-- Three.js for 3D Particle Wave Background Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    ::selection { background-color: #D4FF00; color: #08090C; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #08090C; }
+    ::-webkit-scrollbar-thumb { background: #1E2330; border-radius: 3px; }
+
+    /* Audio wave animation */
+    @keyframes audioWave {
+      0% { height: 3px; }
+      50% { height: 14px; }
+      100% { height: 5px; }
+    }
+    .audio-active .audio-bar {
+      animation: audioWave 0.8s ease-in-out infinite alternate;
+    }
+    .audio-bar:nth-child(2) { animation-delay: 0.15s; }
+    .audio-bar:nth-child(3) { animation-delay: 0.3s; }
+    .audio-bar:nth-child(4) { animation-delay: 0.45s; }
+
+    /* 3D Book Engine */
+    .book-stage {
+      perspective: 2200px;
+    }
+    .book-wrapper {
+      transform-style: preserve-3d;
+      transition: transform 0.9s cubic-bezier(0.25, 1, 0.3, 1);
+      transform: translateX(-190px);
+    }
+    @media (max-width: 640px) {
+      .book-wrapper {
+        transform: translateX(-160px);
+      }
+    }
+    .book-stage:hover .book-wrapper,
+    .book-stage.is-open .book-wrapper {
+      transform: translateX(0px);
+    }
+    .book-leaf {
+      transform-style: preserve-3d;
+      transform-origin: left center;
+      transition: transform 0.95s cubic-bezier(0.25, 1, 0.3, 1), box-shadow 0.8s ease;
+    }
+    .book-stage:hover .book-leaf,
+    .book-stage.is-open .book-leaf {
+      transform: rotateY(-180deg);
+      box-shadow: -20px 20px 50px rgba(0, 0, 0, 0.9);
+    }
+    .left-base-page {
+      transition: opacity 0.6s ease;
+      opacity: 0;
+    }
+    .book-stage:hover .left-base-page,
+    .book-stage.is-open .left-base-page {
+      opacity: 1;
+    }
+    .face-front {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      z-index: 2;
+    }
+    .face-back {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      transform: rotateY(180deg);
+      z-index: 1;
+    }
+    .gilded-edges {
+      box-shadow: 
+        inset 0 0 10px rgba(0,0,0,0.3),
+        3px 3px 0 #C5A059,
+        5px 5px 0 #8C6D31,
+        7px 7px 20px rgba(0,0,0,0.7);
+    }
+  
+
+
+    /* Key glow animation */
+    @keyframes keyGlow {
+      0% { background-color: rgba(212, 255, 0, 0); border-color: rgba(255,255,255,0.1); }
+      50% { background-color: rgba(212, 255, 0, 0.5); border-color: #D4FF00; box-shadow: 0 0 10px #D4FF00; }
+      100% { background-color: rgba(212, 255, 0, 0.15); border-color: rgba(212,255,0,0.5); }
+    }
+
+    /* Headphone Sound-Wave ripple circles */
+    @keyframes wavePulse {
+      0% { transform: scale(0.8); opacity: 0.9; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+    .sound-wave-circle {
+      animation: wavePulse 1.8s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+    }
+    .sound-wave-circle:nth-child(2) {
+      animation-delay: 0.6s;
+    }
+    .sound-wave-circle:nth-child(3) {
+      animation-delay: 1.2s;
+    }
+
+    /* Interactive Objects 3D Hover & Lighting */
+    .interactive-obj {
+      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.4s ease, box-shadow 0.4s ease;
+    }
+    .interactive-obj:hover {
+      filter: drop-shadow(0 0 16px rgba(212, 255, 0, 0.4));
+    }
+
+  </style>
+</head>
+<body class="bg-bg text-textPrimary antialiased min-h-screen selection:bg-accent selection:text-bg relative">
+
+
+
+  <!-- 3D DYNAMIC PARTICLE WAVE BACKGROUND (Canvas / WebGL Engine) -->
+  <div id="wave-bg" class="fixed inset-0 pointer-events-none z-0 opacity-45 overflow-hidden"></div>
+
+  <!-- CLEAN AIRY NAVBAR -->
+  <header class="sticky top-0 z-50 bg-bg/90 backdrop-blur-xl border-b border-border">
+    <div class="max-w-7xl mx-auto px-6 sm:px-12 h-16 sm:h-18 flex items-center justify-between">
+      
+      <!-- Brand Logo & Vector Icon -->
+      <a href="index.html" class="flex items-center gap-3 group">
+        <!-- Neon Square Icon Mark -->
+        <span class="w-3.5 h-3.5 bg-accent rounded-sm shadow-[0_0_12px_#D4FF00] group-hover:rotate-45 transition-transform duration-300"></span>
+        <div class="flex items-baseline gap-2.5">
+          <span class="font-display font-black text-2xl tracking-tight text-white">
+            ZEROUP<span class="text-accent">.</span>
+          </span>
+          <span class="font-sans italic text-xs text-textSecondary hidden sm:inline tracking-wide font-normal">
+            Ideas → Impact
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Links: System, Clients, Work, Lab, About, Careers -->
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium tracking-normal text-textSecondary">
+        <a href="index.html" class="flex items-center gap-1.5 text-white font-semibold">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_6px_#D4FF00]"></span> Home
+        </a>
+        <a href="services.html" class="hover:text-white transition-colors">The System</a>
+        <a href="#clients" class="hover:text-white transition-colors">Clients</a>
+        <a href="case-studies.html" class="hover:text-white transition-colors">Work</a>
+        <a href="blogs.html" class="hover:text-white transition-colors">Lab</a>
+        <a href="about.html" class="hover:text-white transition-colors">About</a>
+        <a href="careers.html" class="hover:text-white transition-colors">Careers</a>
+      </nav>
+
+      <!-- Right Pill Action -->
+      <div class="flex items-center gap-3 sm:gap-4">
+        <!-- Film Score Ambient Audio Toggle -->
+        <button data-soundtrack-toggle class="px-3.5 py-2 rounded-full border border-white/20 hover:border-accent bg-surface/80 hover:bg-surface text-white font-mono text-xs flex items-center gap-2 transition-all group shadow-sm" title="Play Cinematic Film Score (Pure Web Audio)">
+          <div class="flex items-end gap-0.5 h-3">
+            <span class="audio-bar w-[2px] h-1 bg-accent"></span>
+            <span class="audio-bar w-[2px] h-2.5 bg-accent"></span>
+            <span class="audio-bar w-[2px] h-1.5 bg-accent"></span>
+            <span class="audio-bar w-[2px] h-3 bg-accent"></span>
+          </div>
+          <span data-audio-label class="tracking-wider">SCORE ♫</span>
+        </button>
+
+        <a href="contact.html" class="px-5 py-2.5 rounded-full border border-white/20 hover:border-accent text-white hover:text-accent font-sans text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm">
+          <span>Get in Touch</span>
+          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-accent"></i>
+        </a>
+        <button id="mobile-toggle" class="md:hidden p-2 text-textSecondary hover:text-white border border-border rounded-lg">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden border-b border-border bg-surface px-6 py-6 space-y-4 text-sm font-sans">
+      <div class="flex items-center gap-3 pb-3 border-b border-border/60">
+        <div class="w-9 h-9 rounded-lg bg-surface border border-accent/40 p-1 flex items-center justify-center">
+          <img src="/zeroup-icon.svg" alt="ZEROUP Icon" class="w-full h-full object-contain" />
+        </div>
+        <div>
+          <div class="font-display font-bold text-lg text-white">ZEROUP<span class="text-accent">.</span></div>
+          <div class="font-mono text-[8px] text-accent tracking-wider uppercase">BUILD ATTENTION. OWN DISTRIBUTION.</div>
+        </div>
+      </div>
+      <a href="index.html" class="block text-accent font-bold">Home</a>
+      <a href="services.html" class="block text-textSecondary hover:text-white">The System (Three Engines)</a>
+      <a href="#clients" class="block text-textSecondary hover:text-white">Clients & Productions</a>
+      <a href="case-studies.html" class="block text-textSecondary hover:text-white">Work (Case Studies)</a>
+      <a href="blogs.html" class="block text-textSecondary hover:text-white">Lab & Research</a>
+      <a href="about.html" class="block text-textSecondary hover:text-white">About Us</a>
+      <a href="careers.html" class="block text-textSecondary hover:text-white">Careers</a>
+      <button data-soundtrack-toggle class="w-full py-2.5 rounded-lg border border-white/20 text-accent font-mono text-xs flex items-center justify-center gap-2">
+        <span>♫ PLAY / PAUSE CINEMATIC SCORE</span>
+      </button>
+      <a href="contact.html" class="block text-accent font-bold pt-2 border-t border-border">Contact Us →</a>
+    </div>
+  </header>
+
+  <!-- ========================================================
+       01 HERO: CODED CREATIVE STUDIO WORKSPACE (INTERACTIVE)
+       ======================================================== -->
+  <section id="hero-studio-stage" class="relative bg-[#07080B] border-b border-border overflow-hidden select-none py-6 sm:py-10">
+    
+    <!-- Dotted Grid Desk Texture Background -->
+    <div class="absolute inset-0 bg-[radial-gradient(#1E2330_1px,transparent_1px)] [background-size:28px_28px] opacity-60 pointer-events-none"></div>
+
+    <!-- Soft Ambient Studio Spotlights -->
+    <div class="absolute -top-32 left-1/4 w-[550px] h-[550px] bg-accent/5 rounded-full blur-[140px] pointer-events-none"></div>
+    <div class="absolute top-1/3 -right-32 w-[500px] h-[500px] bg-accent/5 rounded-full blur-[140px] pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 space-y-8 relative z-10">
+      
+      <!-- Film Viewfinder Status Header -->
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-3 text-xs font-mono">
+        <div class="inline-flex items-center gap-2.5 px-3 py-1 rounded-full bg-surface/90 border border-white/15">
+          <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+          <span class="text-white font-semibold">REC ● 00:01:24:18</span>
+          <span class="text-white/30">|</span>
+          <span class="text-textSecondary">24 FPS</span>
+          <span class="text-white/30">|</span>
+          <span class="text-accent font-semibold">35MM CINEMATIC IP</span>
+        </div>
+        <div class="hidden sm:flex items-center gap-2 text-textMuted">
+          <span>STUDIO DESK COORDINATES:</span>
+          <span class="text-white font-medium">CIVIL LINES, PRAYAGRAJ · 211001 🇮🇳</span>
+        </div>
+      </div>
+
+      <!-- ========================================================
+           THE CODED STUDIO WORKSPACE LAYOUT (3-COLUMN DESK SCENE)
+           ======================================================== -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[560px] relative">
+        
+        <!-- --------------------------------------------------------
+             COLUMN 1 (LEFT): CREATOR + CHALK TEXT + CLIPBOARD
+             -------------------------------------------------------- -->
+        <div class="lg:col-span-4 flex flex-col items-center lg:items-start space-y-6 relative">
+          
+          <!-- Creator Visual: Circular Neon Aura with Crown & Creator Photo -->
+          <div class="flex items-center gap-5">
+            <div id="hero-creator-trigger" class="relative w-44 h-44 sm:w-52 sm:h-52 lg:w-56 lg:h-56 cursor-pointer group/creator" data-cursor="CREATIVE" title="Built by Creators for Brands">
+              
+              <!-- Neon Concentric Glowing Rings -->
+              <div class="absolute inset-0 rounded-full border-4 border-accent shadow-[0_0_35px_rgba(212,255,0,0.4)] group-hover/creator:scale-105 transition-transform duration-500"></div>
+              <div class="absolute -inset-2.5 rounded-full border border-accent/40 animate-pulse pointer-events-none"></div>
+              
+              <!-- Hand-Drawn Crown above creator's head -->
+              <div class="absolute -top-6 left-1/2 -translate-x-1/2 z-20 pointer-events-none">
+                <svg class="w-10 h-10 text-accent filter drop-shadow-[0_0_10px_#D4FF00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 18h20L19 7l-5 6-2-8-2 8-5-6L2 18z" />
+                  <circle cx="2" cy="18" r="1.5" fill="#D4FF00" />
+                  <circle cx="22" cy="18" r="1.5" fill="#D4FF00" />
+                </svg>
+              </div>
+
+              <!-- Grayscale Creator Photo inside Circular Mask -->
+              <div class="w-full h-full rounded-full overflow-hidden bg-black relative shadow-2xl">
+                <img src="/asset-creator-portrait.jpg" alt="ZeroUp Creator" class="w-full h-full object-cover object-top filter grayscale contrast-125 brightness-95 group-hover/creator:scale-110 transition-transform duration-700" />
+              </div>
+
+              <!-- Pill Button below creator: Life at ZeroUp -->
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="absolute -bottom-3 left-1/2 -translate-x-1/2 z-20 px-3.5 py-1 rounded-full bg-black/90 border border-white/20 hover:border-accent text-white hover:text-accent font-mono text-[10px] tracking-wider flex items-center gap-1.5 shadow-xl transition-all whitespace-nowrap">
+                <span>📷 Life at ZeroUp</span>
+                <span>→</span>
+              </a>
+            </div>
+
+            <!-- Hand-Drawn Chalk Notes: Better Ideas Bigger Impact -->
+            <div class="font-['Caveat',cursive] text-accent text-2xl sm:text-3xl leading-[1.1] drop-shadow-[0_0_8px_rgba(212,255,0,0.6)] select-none hidden sm:block">
+              <div class="flex items-center gap-1">
+                <span>Better</span>
+                <span class="text-xs">✦</span>
+              </div>
+              <div>Ideas</div>
+              <div>Bigger</div>
+              <div class="flex items-center gap-1">
+                <span>Impact.</span>
+                <span class="text-xs">✦</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Blackboard Clipboard Sketchbook (Angled lower-left) -->
+          <div id="hero-clipboard-trigger" class="interactive-obj w-56 sm:w-64 cursor-pointer transform -rotate-6 hover:rotate-0 hover:scale-105 transition-all duration-300 z-30 pt-2" data-cursor="STORY" title="Click to open Studio Story">
+            <img src="/asset-clipboard.png" alt="Ideas Plans Products Sketchbook" class="w-full h-auto object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.85)]" />
+            <div class="font-mono text-[9px] text-accent/80 tracking-wider text-center pt-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+              [NOTEBOOK · CLICK TO EXPLORE STORY]
+            </div>
+          </div>
+
+        </div>
+
+        <!-- --------------------------------------------------------
+             COLUMN 2 (CENTER): GLOBE + ZEROUP BADGE + MANIFESTO + CTAS
+             -------------------------------------------------------- -->
+        <div class="lg:col-span-5 flex flex-col items-center text-center space-y-4 relative z-20">
+          
+          <!-- 3D Wireframe Globe with Orbit Rings -->
+          <div class="relative w-20 h-20 sm:w-24 sm:h-24 mx-auto">
+            <!-- Orbital Rings -->
+            <div class="absolute inset-x-[-20%] top-1/2 -translate-y-1/2 h-8 rounded-full border border-white/40 rotate-[15deg] pointer-events-none"></div>
+            <div class="absolute inset-x-[-30%] top-1/2 -translate-y-1/2 h-12 rounded-full border border-accent/50 -rotate-[20deg] pointer-events-none animate-pulse"></div>
+            <img src="/asset-globe.png" alt="Wireframe Globe" class="w-full h-full object-contain filter drop-shadow-[0_0_20px_rgba(255,255,255,0.7)]" />
+          </div>
+
+          <!-- Top Duct-Tape Tag: "for creatives" -->
+          <div class="transform -rotate-2 select-none">
+            <span class="inline-block px-4 py-1 rounded-sm bg-accent text-[#08090C] font-mono text-xs sm:text-sm font-black uppercase tracking-wider shadow-[0_4px_15px_rgba(212,255,0,0.35)]">
+              for creatives
+            </span>
+          </div>
+
+          <!-- Pure Coded Stylized "ZeroUp" Typography with Upward Arrow -->
+          <div class="relative py-2 select-none group/title">
+            <div class="font-display font-black text-6xl sm:text-7xl lg:text-8xl tracking-tight text-accent italic transform -skew-x-6 flex items-center justify-center filter drop-shadow-[0_0_35px_rgba(212,255,0,0.65)] hover:scale-105 transition-transform duration-300">
+              <span class="text-accent">Zero</span>
+              <span class="relative inline-flex items-center text-accent">
+                <span>U</span>
+                <!-- Upward Arrow inside the U -->
+                <svg class="w-8 h-8 sm:w-11 sm:h-11 lg:w-13 lg:h-13 text-accent -ml-2.5 -mr-1.5 -mt-6 sm:-mt-8 inline-block filter drop-shadow-[0_0_12px_#D4FF00]" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2l-7 7h4.5v11h5v-11h4.5l-7-7z" />
+                </svg>
+                <span>p</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Bottom Duct-Tape Tag: "by creatives..." + Hand-drawn Crown -->
+          <div class="flex items-center justify-center gap-2.5 transform rotate-2 select-none">
+            <span class="inline-block px-4 py-1 rounded-sm bg-[#161922] text-accent font-mono text-xs sm:text-sm font-black uppercase tracking-widest border border-white/20 shadow-xl">
+              by creatives...
+            </span>
+            <svg class="w-6 h-6 text-accent filter drop-shadow-[0_0_8px_#D4FF00] -rotate-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 18h20L19 7l-5 6-2-8-2 8-5-6L2 18z" />
+            </svg>
+          </div>
+
+          <!-- Narrative Subheadline -->
+          <p class="font-mono text-xs sm:text-sm text-textSecondary uppercase tracking-wider text-center max-w-lg mx-auto leading-relaxed pt-2">
+            WE BUILD CONTENT SYSTEMS FOR BRANDS, FOUNDERS AND CREATORS — FROM STRATEGY TO STORYTELLING TO PRODUCTION.
+          </p>
+
+          <!-- Direct Flow Indicator -->
+          <div class="inline-flex items-center gap-2 flex-wrap font-mono text-[10px] sm:text-[11px] text-white bg-surface/90 border border-white/10 px-3.5 py-1.5 rounded-xl backdrop-blur-md">
+            <span class="text-accent font-bold">STRATEGY</span>
+            <span class="text-textMuted">→</span>
+            <span>CONTENT</span>
+            <span class="text-textMuted">→</span>
+            <span>DISTRIBUTION</span>
+            <span class="text-textMuted">→</span>
+            <span>AUDIENCE</span>
+            <span class="text-textMuted">→</span>
+            <span class="text-accent font-bold">IP</span>
+          </div>
+
+          <!-- Main Hero Actions -->
+          <div class="flex flex-wrap items-center justify-center gap-3.5 pt-2">
+            <a href="#system" class="px-7 py-3 rounded-full bg-accent hover:bg-accentHover text-bg font-sans text-xs font-black uppercase tracking-wider transition-all shadow-[0_0_25px_rgba(212,255,0,0.45)] hover:scale-105 active:scale-95 flex items-center gap-2 group" data-cursor="EXPLORE">
+              <span>EXPLORE THE SYSTEM</span>
+              <span class="group-hover:translate-x-1 transition-transform">→</span>
+            </a>
+            <button data-open-showreel class="px-7 py-3 rounded-full bg-surface/90 hover:bg-surface border border-white/30 hover:border-accent text-white hover:text-accent font-sans text-xs font-bold uppercase tracking-wider transition-all shadow-lg hover:scale-105 active:scale-95 flex items-center gap-2" data-cursor="WATCH">
+              <span class="text-accent font-bold">▷</span>
+              <span>WATCH SHOWREEL</span>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- --------------------------------------------------------
+             COLUMN 3 (RIGHT): KEYBOARD + HEADPHONES + LAPTOP + STICKY NOTE
+             -------------------------------------------------------- -->
+        <div class="lg:col-span-3 flex flex-col items-center lg:items-end space-y-5 relative">
+          
+          <!-- Mechanical Keyboard with Chalk Annotation -->
+          <div class="relative w-full flex flex-col items-center lg:items-end">
+            <!-- Chalk Annotation pointing to keyboard -->
+            <div class="font-['Caveat',cursive] text-accent text-xl sm:text-2xl leading-none drop-shadow-[0_0_8px_rgba(212,255,0,0.6)] select-none pb-2 text-right">
+              <div>Strategy</div>
+              <div class="pr-2">Content</div>
+              <div class="pr-4">Design</div>
+              <div class="pr-6">Production</div>
+              <div class="pr-8">Growth</div>
+            </div>
+
+            <!-- Mechanical Keyboard Trigger -->
+            <div id="hero-keyboard-trigger" class="interactive-obj w-60 sm:w-72 lg:w-76 cursor-pointer transform rotate-[10deg] hover:rotate-[6deg] hover:scale-105 transition-all duration-300 z-30" data-cursor="ENTER SYSTEM" title="Mechanical Keyboard · Click to Enter The System">
+              <img src="/asset-keyboard.png" alt="Mechanical Keyboard" class="w-full h-auto object-contain filter drop-shadow-[0_20px_40px_rgba(0,0,0,0.95)]" />
+              <div class="font-mono text-[9px] text-accent/80 tracking-wider text-right pt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                [KEYBOARD · CLICK TO ENTER SYSTEM ↵]
+              </div>
+            </div>
+          </div>
+
+          <!-- Studio Headphones & Laptop Device Cluster -->
+          <div class="flex items-center justify-end gap-3 w-full">
+            
+            <!-- Green Studio Headphones -->
+            <div id="hero-headphones-trigger" class="interactive-obj w-36 sm:w-44 cursor-pointer transform -rotate-12 hover:rotate-0 hover:scale-105 transition-all duration-300 relative z-30" data-cursor="PLAY AUDIO" title="Studio Headphones · Click to toggle Ambient Soundtrack">
+              <!-- Sound-Wave Ripple Rings -->
+              <div class="sound-wave-circle absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-28 h-28 rounded-full border border-accent/60 pointer-events-none opacity-0 group-hover:opacity-100"></div>
+              <div class="headphone-wave absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 rounded-full border border-accent/40 pointer-events-none opacity-0"></div>
+              <img src="/asset-headphones.png" alt="Green Studio Headphones" class="w-full h-auto object-contain filter drop-shadow-[0_20px_45px_rgba(0,0,0,0.95)]" />
+            </div>
+
+            <!-- Laptop Surface with Stickers -->
+            <div id="hero-book-trigger" class="interactive-obj w-32 sm:w-36 cursor-pointer transform rotate-6 hover:rotate-0 hover:scale-105 transition-all duration-300 z-25" data-cursor="OPEN BOOK" title="Click to open Studio Book">
+              <img src="/asset-laptop.png" alt="ZeroUp Studio Notebook with stickers" class="w-full h-auto object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.85)]" />
+            </div>
+
+          </div>
+
+          <!-- Lime Sticky Note (Bottom Right) -->
+          <div id="hero-sticky-trigger" class="interactive-obj w-28 sm:w-32 cursor-pointer transform rotate-6 hover:rotate-2 hover:scale-110 transition-all duration-300 z-30 pt-1" data-cursor="READ NOTE" title="Sticky Note">
+            <img src="/asset-sticky-note.png" alt="Same Dream Bigger Plans Sticky Note" class="w-full h-auto object-contain filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.85)]" />
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Desk Telemetry & Fast Direct Flow Footer -->
+      <div class="border-t border-white/10 pt-4 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-textMuted">
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+          <span class="text-white font-bold">ZEROUP STUDIO WORKSPACE</span>
+          <span class="text-white/20">|</span>
+          <span class="text-accent">INTERACTIVE CREATIVE-TECH ENVIRONMENT</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <span>COORDINATES: <strong class="text-white">25.4358° N, 81.8463° E · PRAYAGRAJ 🇮🇳</strong></span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       02 THE 3D INTERACTIVE DOSSIER / BOOK (FLIP OPEN ON HOVER)
+       ======================================================== -->
+  <section id="dossier" class="py-12 sm:py-16 border-b border-border relative overflow-hidden bg-surface/20 scroll-mt-20">
+    <div id="clients" class="absolute -top-24"></div>
+    <div class="max-w-7xl mx-auto px-6 sm:px-12">
+      <!-- 3D Perspective Stage -->
+      <div class="w-full flex justify-center py-4 sm:py-8 overflow-x-auto sm:overflow-visible">
+        <div id="book-stage" class="book-stage w-full max-w-[820px] flex justify-center cursor-pointer select-none">
+          
+          <!-- Book Wrapper (Smooth Center Shift) -->
+          <div class="book-wrapper relative w-[720px] sm:w-[760px] h-[500px] sm:h-[540px] flex">
+
+            <!-- Left Base Page (Revealed underneath leaf when open) -->
+            <div class="left-base-page w-1/2 h-full bg-[#111318] rounded-l-2xl border-l-4 border-y border-[#262B38] relative flex flex-col justify-between p-7 text-[#1A1A1A]">
+              <div class="text-[10px] font-mono text-white/30 uppercase tracking-widest">ZEROUP ARCHIVE BASE · REEL 01</div>
+              <div class="my-auto text-center font-mono text-xs text-white/40 space-y-3">
+                <div class="w-14 h-14 mx-auto rounded-xl border border-white/20 bg-surface/80 p-2.5 flex items-center justify-center shadow-lg">
+                  <img src="/zeroup-icon.svg" alt="ZEROUP Vector Icon" class="w-full h-full object-contain filter drop-shadow-[0_0_10px_rgba(212,255,0,0.5)]" />
+                </div>
+                <div class="text-[11px] text-white/70 font-semibold tracking-wider">ZEROUP MEDIA ARCHIVE</div>
+              </div>
+              <div class="text-[9px] font-mono text-white/20">EST. PRAYAGRAJ · 2026</div>
+            </div>
+
+            <!-- Right Base Page (Client Productions with Live Links) -->
+            <div class="w-1/2 h-full bg-[#FAF7EF] rounded-r-2xl border-r-4 border-y border-[#DDD7C8] relative flex flex-col justify-between p-6 sm:p-8 text-[#14171F] gilded-edges">
+              <!-- Left Spine Shadow -->
+              <div class="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-black/25 to-transparent pointer-events-none z-10"></div>
+              
+              <!-- Header -->
+              <div class="flex items-center justify-between border-b border-[#E2DCCE] pb-3 text-[10px] font-mono text-[#666]">
+                <span class="tracking-widest font-bold text-[#14171F]">CHAPTER II: ACTIVE PRODUCTIONS</span>
+                <span>PAGE 02 / 24FPS</span>
+              </div>
+
+              <!-- 3 Real Client Spotlights -->
+              <div class="space-y-3.5 my-auto">
+                
+                <!-- Client 01 -->
+                <a href="https://prayagrajrooms.in/" target="_blank" rel="noopener noreferrer" class="block p-3 rounded-lg bg-[#F0ECE1] hover:bg-[#E8E2D4] border border-[#DDD7C8] transition-all group">
+                  <div class="flex items-center justify-between text-[10px] font-mono">
+                    <span class="text-[#08090C] font-extrabold uppercase tracking-wide">01 · Prayagraj Rooms</span>
+                    <span class="text-[#888] group-hover:text-black">prayagrajrooms.in ↗</span>
+                  </div>
+                  <p class="text-xs text-[#444] mt-1 leading-snug">
+                    Student & room discovery walkthroughs. Organic docu-series eliminating broker ad spend.
+                  </p>
+                </a>
+
+                <!-- Client 02 -->
+                <a href="https://vindhyamillets.com/" target="_blank" rel="noopener noreferrer" class="block p-3 rounded-lg bg-[#EBF7C6] hover:bg-[#E3F2B3] border border-[#C6DC82] transition-all group">
+                  <div class="flex items-center justify-between text-[10px] font-mono">
+                    <span class="text-[#1A3300] font-extrabold uppercase tracking-wide">02 · Vindhya Millets</span>
+                    <span class="text-[#3E6600] group-hover:text-[#1A3300]">vindhyamillets.com ↗</span>
+                  </div>
+                  <p class="text-xs text-[#2A4405] mt-1 leading-snug">
+                    Farm-to-table origin docu-series & health video IP building loyal organic buyers.
+                  </p>
+                </a>
+
+                <!-- Client 03 -->
+                <a href="https://www.pathsynclearning.com/" target="_blank" rel="noopener noreferrer" class="block p-3 rounded-lg bg-[#F0ECE1] hover:bg-[#E8E2D4] border border-[#DDD7C8] transition-all group">
+                  <div class="flex items-center justify-between text-[10px] font-mono">
+                    <span class="text-[#08090C] font-extrabold uppercase tracking-wide">03 · PathSync Learning</span>
+                    <span class="text-[#888] group-hover:text-black">pathsynclearning.com ↗</span>
+                  </div>
+                  <p class="text-xs text-[#444] mt-1 leading-snug">
+                    Founder executive podcast & career framework IP attracting high-intent learners.
+                  </p>
+                </a>
+
+              </div>
+
+              <!-- Page Footer & Silk Ribbon -->
+              <div class="pt-3 border-t border-[#E2DCCE] flex items-center justify-between text-[10px] font-mono text-[#777]">
+                <span>© ZEROUP SYSTEMS · MEDIA IP</span>
+                <span class="font-bold text-[#14171F]">PRAYAGRAJ, INDIA 🇮🇳</span>
+              </div>
+
+              <!-- Dangling Ribbon Bookmark -->
+              <div class="absolute -bottom-6 right-10 w-4 h-12 bg-accent shadow-md transform rotate-6 border-x border-black/15 pointer-events-none"></div>
+            </div>
+
+            <!-- The Flipping 3D Leaf (Cover on Front / Script Manifesto on Back) -->
+            <div class="book-leaf absolute inset-y-0 right-0 w-1/2 h-full z-20">
+              
+              <!-- FRONT FACE: Luxury Leather Hardcover (Visible When Closed) -->
+              <div class="face-front absolute inset-0 w-full h-full bg-[#0D0F14] rounded-r-2xl border-r-4 border-y border-[#262B38] flex flex-col justify-between p-7 sm:p-9 text-white shadow-2xl overflow-hidden">
+                <!-- Leather Vignette -->
+                <div class="absolute inset-0 bg-radial-gradient from-transparent to-black/70 pointer-events-none"></div>
+                <!-- Hinge Crease -->
+                <div class="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
+
+                <!-- Top Stamped Header -->
+                <div class="relative z-10 flex items-center justify-between border-b border-white/10 pb-3">
+                  <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-accent shadow-[0_0_8px_#D4FF00]"></span>
+                    <span class="font-mono text-[10px] text-white/60 tracking-widest uppercase">DIRECTOR'S DOSSIER</span>
+                  </div>
+                  <span class="font-mono text-[10px] text-accent tracking-widest uppercase font-bold">VOL. 01</span>
+                </div>
+
+                <!-- Center Gold Emblem & Foil Title -->
+                <div class="relative z-10 text-center space-y-4 my-auto">
+                  <div class="w-18 h-18 sm:w-20 sm:h-20 mx-auto rounded-2xl border-2 border-accent/40 bg-black/60 p-2.5 relative shadow-[0_0_30px_rgba(212,255,0,0.3)] flex items-center justify-center">
+                    <img src="/zeroup-icon.svg" alt="ZEROUP Vector Icon" class="w-full h-full object-contain filter drop-shadow-[0_0_12px_#D4FF00]" />
+                  </div>
+
+                  <h3 class="font-display font-extrabold text-2xl sm:text-3xl text-white tracking-tight leading-tight">
+                    ZEROUP<span class="text-accent">.</span><br />
+                    <span class="text-xs sm:text-sm font-mono font-normal tracking-widest text-white/70 uppercase">THE MEDIA IP COMPENDIUM</span>
+                  </h3>
+
+                  <p class="font-sans text-xs text-white/60 max-w-[240px] mx-auto leading-relaxed">
+                    Why companies must own distribution instead of renting attention.
+                  </p>
+                </div>
+
+                <!-- Bottom Hover Cue -->
+                <div class="relative z-10 pt-3 border-t border-white/10 flex items-center justify-between text-[10px] font-mono">
+                  <span class="text-white/40">PRAYAGRAJ, INDIA 🇮🇳</span>
+                  <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent text-bg font-extrabold tracking-wider animate-pulse">
+                    <span>HOVER TO OPEN</span>
+                    <span>→</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- BACK FACE: Inside Left Page (Film Script Manifesto) -->
+              <div class="face-back absolute inset-0 w-full h-full bg-[#FAF7EF] rounded-l-2xl border-l-4 border-y border-[#DDD7C8] flex flex-col justify-between p-6 sm:p-8 text-[#14171F] gilded-edges">
+                <!-- Right Spine Shadow -->
+                <div class="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-black/25 to-transparent pointer-events-none z-10"></div>
+
+                <!-- Top Script Header -->
+                <div class="flex items-center justify-between border-b border-[#E2DCCE] pb-3 text-[10px] font-mono text-[#666]">
+                  <span class="font-bold text-[#14171F]">SCENE: BHARAT / TAKE: 01</span>
+                  <span>ROLL: 24 FPS</span>
+                </div>
+
+                <!-- Screenplay Body -->
+                <div class="space-y-3 my-auto font-mono text-xs text-[#2A2D35] leading-relaxed">
+                  <div class="text-[10px] text-[#888] uppercase tracking-wider">EXT. DIGITAL ATTENTION LANDSCAPE — DAY</div>
+                  
+                  <p>
+                    <span class="font-bold text-[#08090C]">THE CONVENTIONAL TRAP:</span><br />
+                    Brands spend lakhs on performance ads. The exact second you pause spend, you vanish into thin air.
+                  </p>
+
+                  <p class="bg-[#F2ECE1] p-2.5 rounded border border-[#E0D9CB]">
+                    <span class="font-bold text-[#08090C]">ZEROUP PHILOSOPHY:</span><br />
+                    Media IP compounds forever. Original shows, docu-series, and executive narratives build audience trust that you own outright.
+                  </p>
+
+                  <!-- Clapper Stamp -->
+                  <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-[#08090C] text-accent text-[9px] font-bold tracking-widest uppercase">
+                    <span>PIPELINE: STRATEGY → CONTENT → IP</span>
+                  </div>
+                </div>
+
+                <!-- Bottom Footer -->
+                <div class="pt-3 border-t border-[#E2DCCE] flex items-center justify-between text-[10px] font-mono text-[#777]">
+                  <span>PAGE 01 / PROPRIETARY</span>
+                  <span class="font-bold text-[#14171F]">DIRECTOR'S LOG</span>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+
+  <!-- ========================================================
+       03 HOW IT WORKS: DETAILED STEP-BY-STEP BREAKDOWN
+       ======================================================== -->
+  <section id="how-it-works" class="py-24 sm:py-36 border-b border-border relative bg-surface/30">
+    <div class="max-w-7xl mx-auto px-6 sm:px-12">
+      
+      <div class="max-w-3xl mb-16 space-y-4">
+        <div class="text-xs font-mono text-accent uppercase tracking-widest">HOW IT WORKS</div>
+        <h2 class="font-display font-extrabold text-4xl sm:text-6xl text-white tracking-tight">
+          From raw insight<br />
+          <span class="text-accent">to owned distribution.</span>
+        </h2>
+        <p class="font-sans text-base sm:text-lg text-textSecondary leading-relaxed">
+          Here is how our engine executes the formula: Idea → Content → Distribution → Audience → Proprietary IP.
+        </p>
+      </div>
+
+      <!-- 4 Step Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        
+        <!-- Step 1: Idea -->
+        <div class="p-8 rounded-2xl bg-surface border border-border hover:border-accent transition-all space-y-6 flex flex-col justify-between group">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between text-xs font-mono text-accent">
+              <span class="font-bold">01 / STAGE</span>
+              <span class="px-2 py-0.5 rounded bg-accent/10 border border-accent/20">THESIS</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-white group-hover:text-accent transition-colors">
+              Idea & Angle
+            </h3>
+            <p class="font-sans text-sm text-textSecondary leading-relaxed">
+              We extract your brand’s contrarian insights. We map audience psychology and design a show concept that no competitor can copy.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-border font-mono text-[11px] text-textMuted space-y-1">
+            <div>• Socratic Extraction</div>
+            <div>• Audience Mindset Mapping</div>
+            <div>• Show Format Architecture</div>
+          </div>
+        </div>
+
+        <!-- Step 2: Content -->
+        <div class="p-8 rounded-2xl bg-surface border border-border hover:border-accent transition-all space-y-6 flex flex-col justify-between group">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between text-xs font-mono text-accent">
+              <span class="font-bold">02 / STAGE</span>
+              <span class="px-2 py-0.5 rounded bg-accent/10 border border-accent/20">STUDIO</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-white group-hover:text-accent transition-colors">
+              Content Engine
+            </h3>
+            <p class="font-sans text-sm text-textSecondary leading-relaxed">
+              Full-scale studio execution. 4K cinema cameras, multi-cam recording, motion design, and high-retention episodic video editing.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-border font-mono text-[11px] text-textMuted space-y-1">
+            <div>• 4K Cinema Production</div>
+            <div>• Studio Sound & Color Grading</div>
+            <div>• Episodic Narrative Continuity</div>
+          </div>
+        </div>
+
+        <!-- Step 3: Distribution -->
+        <div class="p-8 rounded-2xl bg-surface border border-border hover:border-accent transition-all space-y-6 flex flex-col justify-between group">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between text-xs font-mono text-accent">
+              <span class="font-bold">03 / STAGE</span>
+              <span class="px-2 py-0.5 rounded bg-accent/10 border border-accent/20">OMNICHANNEL</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-white group-hover:text-accent transition-colors">
+              Distribution
+            </h3>
+            <p class="font-sans text-sm text-textSecondary leading-relaxed">
+              1 master recording is atomized into YouTube long-form, high-retention short-form video assets, and thought-leadership LinkedIn frameworks.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-border font-mono text-[11px] text-textMuted space-y-1">
+            <div>• YouTube Video SEO & Title Testing</div>
+            <div>• Instagram Reels Cultural Syndication</div>
+            <div>• LinkedIn Founder Authority</div>
+          </div>
+        </div>
+
+        <!-- Step 4: Audience to IP -->
+        <div class="p-8 rounded-2xl bg-surface border-2 border-accent space-y-6 flex flex-col justify-between shadow-[0_0_30px_rgba(212,255,0,0.15)] group">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between text-xs font-mono text-accent">
+              <span class="font-bold">04 / STAGE</span>
+              <span class="px-2 py-0.5 rounded bg-accent text-bg font-bold">ASSET VALUE</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-white">
+              Audience → IP
+            </h3>
+            <p class="font-sans text-sm text-textPrimary leading-relaxed">
+              Casual viewers become an owned audience. Your media IP builds compounding brand equity and direct distribution leverage.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-border font-mono text-[11px] text-accent space-y-1">
+            <div>✔ Compounding Audience Equity</div>
+            <div>✔ Direct Editorial Distribution</div>
+            <div>✔ Proprietary Media Asset Ownership</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       02 THE STRATEGIC SHIFT: RENTING ADS VS BUILDING AN ASSET
+       ======================================================== -->
+  <section class="py-24 sm:py-36 border-b border-border bg-surface/30">
+    <div class="max-w-7xl mx-auto px-6 sm:px-12">
+      
+      <div class="max-w-3xl mb-16 space-y-4">
+        <div class="text-xs font-mono text-accent uppercase tracking-widest">THE STRATEGIC SHIFT</div>
+        <h2 class="font-display font-extrabold text-4xl sm:text-6xl text-white tracking-tight">
+          Don't rent attention forever.<br />
+          <span class="text-accent">Build an asset.</span>
+        </h2>
+        <p class="font-sans text-base sm:text-lg text-textSecondary leading-relaxed">
+          Paid advertising stops working the minute you pause ad spend. A media system builds compounding equity and direct distribution leverage.
+        </p>
+      </div>
+
+      <!-- Comparison: Clean, Open Layout -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        
+        <!-- The Ad Trap -->
+        <div class="p-8 sm:p-10 rounded-2xl bg-surface border border-red-500/20 space-y-6">
+          <div class="flex items-center justify-between font-mono text-xs text-red-400 pb-4 border-b border-border">
+            <span>THE OLD TRAP: RENTED MEDIA</span>
+            <span>0% RESIDUAL EQUITY</span>
+          </div>
+          <h3 class="font-display font-bold text-2xl text-white">Paid Ads & Sponsored Posts</h3>
+          <p class="font-sans text-sm sm:text-base text-textSecondary leading-relaxed">
+            You pay ad networks every month. The second you pause your budget, your traffic drops to zero. You own no audience relationship, no back-catalog, and zero residual media value.
+          </p>
+          <div class="pt-4 border-t border-border font-mono text-xs text-red-400 space-y-1.5">
+            <div>✕ CAC inflates as channels saturate</div>
+            <div>✕ Zero organic customer loyalty</div>
+            <div>✕ Zero compounding media equity</div>
+          </div>
+        </div>
+
+        <!-- The Content IP Model -->
+        <div class="p-8 sm:p-10 rounded-2xl bg-surface border-2 border-accent space-y-6 shadow-[0_0_40px_rgba(212,255,0,0.12)]">
+          <div class="flex items-center justify-between font-mono text-xs text-accent pb-4 border-b border-border">
+            <span>THE ZEROUP WAY: OWNED IP</span>
+            <span class="bg-accent text-bg px-2.5 py-0.5 rounded font-bold">COMPOUNDING ASSET</span>
+          </div>
+          <h3 class="font-display font-bold text-2xl text-white">Original Shows & Media IP</h3>
+          <p class="font-sans text-sm sm:text-base text-textPrimary leading-relaxed">
+            We produce episodic shows, founder media, and editorial franchises. Audiences watch voluntarily because the content is genuinely high-signal. Your distribution builds compounding brand equity over time.
+          </p>
+          <div class="pt-4 border-t border-border font-mono text-xs text-accent space-y-1.5">
+            <div>✔ Back-catalog continues attracting attention over time</div>
+            <div>✔ Deep authority and industry credibility</div>
+            <div>✔ Defensible media IP and direct audience access</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       03 THE SYSTEM: THREE PRODUCTION ENGINES
+       ======================================================== -->
+  <section id="system" class="py-24 sm:py-36 border-b border-border">
+    <div class="max-w-7xl mx-auto px-6 sm:px-12">
+      
+      <div class="max-w-3xl mb-20 space-y-4">
+        <div class="text-xs font-mono text-accent uppercase tracking-widest">THE SYSTEM</div>
+        <h2 class="font-display font-extrabold text-4xl sm:text-6xl text-white tracking-tight">
+          Three engines.<br />
+          <span class="text-accent">One distribution system.</span>
+        </h2>
+        <p class="font-sans text-base sm:text-lg text-textSecondary leading-relaxed">
+          Structured content infrastructure designed to capture attention and convert it into compounding media equity.
+        </p>
+      </div>
+
+      <!-- 3 Engines Grid: Brand Engine, Founder Engine, IP Engine -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10">
+        
+        <!-- Engine 01: Brand Engine -->
+        <div class="p-8 sm:p-10 rounded-2xl bg-surface border border-border hover:border-accent transition-all flex flex-col justify-between space-y-8 group">
+          <div class="space-y-4">
+            <div class="text-accent font-mono text-xs font-bold tracking-widest">01 / BRAND ENGINE</div>
+            <h3 class="font-display font-bold text-2xl text-white">
+              Content Systems for Growing Companies
+            </h3>
+            <p class="font-sans text-sm sm:text-base text-textSecondary leading-relaxed">
+              We turn your company into the definitive media voice in your space. Episodic video series, customer mini-documentaries, and high-retention short-form video that establish category authority.
+            </p>
+          </div>
+          <div class="pt-6 border-t border-border text-xs font-mono text-textMuted space-y-1.5">
+            <div>• 4K Studio & On-Location Production</div>
+            <div>• Episodic Narrative Storytelling</div>
+            <div>• Multi-Channel Short-Form Syndication</div>
+          </div>
+        </div>
+
+        <!-- Engine 02: Founder Engine -->
+        <div class="p-8 sm:p-10 rounded-2xl bg-surface border-2 border-accent flex flex-col justify-between space-y-8 shadow-[0_0_30px_rgba(212,255,0,0.12)] group">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="text-accent font-mono text-xs font-bold tracking-widest">02 / FOUNDER ENGINE</span>
+              <span class="bg-accent text-bg px-2 py-0.5 rounded font-mono text-[10px] font-bold">EXECUTIVE MEDIA</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-white">
+              Executive Media & Thought Leadership
+            </h3>
+            <p class="font-sans text-sm sm:text-base text-textPrimary leading-relaxed">
+              Zero teleprompter reading. Through structured monthly socratic interviews, we extract the founder's sharpest insights and contrarian perspectives, translating them into high-signal essays, LinkedIn frameworks, and executive video commentary.
+            </p>
+          </div>
+          <div class="pt-6 border-t border-border text-xs font-mono text-textSecondary space-y-1.5">
+            <div>• 60-Minute Monthly Executive Extraction</div>
+            <div>• Long-Form Essays & LinkedIn Frameworks</div>
+            <div>• Positions Leadership as Category Authority</div>
+          </div>
+        </div>
+
+        <!-- Engine 03: IP Engine -->
+        <div class="p-8 sm:p-10 rounded-2xl bg-surface border border-border hover:border-accent transition-all flex flex-col justify-between space-y-8 group">
+          <div class="space-y-4">
+            <div class="text-accent font-mono text-xs font-bold tracking-widest">03 / IP ENGINE</div>
+            <h3 class="font-display font-bold text-2xl text-white">
+              Proprietary Shows & Media Franchises
+            </h3>
+            <p class="font-sans text-sm sm:text-base text-textSecondary leading-relaxed">
+              We conceptualize, launch, and co-produce standalone media IP — original recurring video shows, niche audio series, and digital publications designed to capture long-term audience trust and compound into enterprise equity.
+            </p>
+          </div>
+          <div class="pt-6 border-t border-border text-xs font-mono text-textMuted space-y-1.5">
+            <div>• Show Format Development & Bibles</div>
+            <div>• Long-Term Audience Retention Loops</div>
+            <div>• Compounding Media Franchise Equity</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ========================================================
+       04 GAME THEORY & ATTENTION LAB (CHESSBOARD IMAGE)
+       ======================================================== -->
+  <section class="py-24 sm:py-36 border-b border-border bg-surface/30">
+    <div class="max-w-7xl mx-auto px-6 sm:px-12">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-center">
+        
+        <!-- Left: Uploaded Chessboard Image with Spacious Framing -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative rounded-2xl overflow-hidden border border-borderLight bg-surface shadow-2xl group">
+            <img src="strategy_chess_styled.jpg" alt="ZEROUP Attention Game Theory & Mathematics of Distribution — Prayagraj 2026" class="w-full h-auto max-h-[580px] object-cover object-top group-hover:scale-105 transition-transform duration-700" />
+            <div class="absolute inset-0 bg-gradient-to-t from-bg via-transparent to-transparent pointer-events-none"></div>
+
+            <div class="absolute bottom-5 left-5 right-5 bg-bg/90 backdrop-blur-md p-5 rounded-xl border border-border">
+              <div class="flex items-center justify-between text-xs font-mono mb-1.5">
+                <span class="text-accent font-bold flex items-center gap-1.5">
+                  <i data-lucide="cpu" class="w-3.5 h-3.5"></i> GAME THEORY LAB
+                </span>
+                <span class="text-textMuted">PRAYAGRAJ · 2026</span>
+              </div>
+              <p class="font-sans text-xs text-textSecondary leading-relaxed">
+                "Every show we launch is a calculated strategic move on the distribution board."
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Clear Editorial Thesis -->
+        <div class="lg:col-span-7 space-y-8">
+          <div class="text-xs font-mono text-accent uppercase tracking-widest">ATTENTION SCIENCE</div>
+          <h2 class="font-display font-extrabold text-4xl sm:text-6xl text-white tracking-tight leading-tight">
+            Distribution is not luck.<br />
+            <span class="text-accent">It is Game Theory.</span>
+          </h2>
+          <p class="font-sans text-base sm:text-lg text-textSecondary leading-relaxed">
+            Content is an empirical discipline. We study retention mathematics, drop-off curves, and algorithmic feeds so your brand never publishes into an empty void.
+          </p>
+
+          <div class="space-y-4 pt-2">
+            <div class="p-6 rounded-xl bg-surface border border-border">
+              <strong class="text-white block text-base mb-1">01 / The 3-Second Retention Hook</strong>
+              <span class="text-sm text-textSecondary">Audio frequency changes and visual hooks engineered to stop thumb-swipes.</span>
+            </div>
+            <div class="p-6 rounded-xl bg-surface border border-border">
+              <strong class="text-white block text-base mb-1">02 / Algorithmic Syndication</strong>
+              <span class="text-sm text-textSecondary">One master recording turned into high-retention short-form video assets, long-form editorial essays, and audio cuts.</span>
+            </div>
+          </div>
+
+          <div class="pt-2">
+            <a href="blogs.html" class="inline-flex items-center gap-2 text-accent font-bold text-sm hover:underline">
+              <span>Read Our Working Papers & Essays</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       05 CAREERS & CULTURE (COSMIC CREATOR IMAGE)
+       ======================================================== -->
+  <section class="py-24 sm:py-36 border-b border-border">
+    <div class="max-w-7xl mx-auto px-6 sm:px-12">
+      
+      <div class="max-w-3xl space-y-8">
+        
+        <!-- Punchy Careers Pitch -->
+        <div class="space-y-6">
+          <div class="text-xs font-mono text-accent uppercase tracking-widest">CAREERS & CULTURE</div>
+          <h2 class="font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl text-white tracking-tight leading-[1.05]">
+            Come help us make<br />
+            <span class="text-accent">more of them.</span>
+          </h2>
+          <p class="font-sans text-xl sm:text-2xl text-white font-medium leading-relaxed">
+            ZEROUP is a content and distribution company based in Prayagraj.
+          </p>
+          <p class="font-sans text-base sm:text-lg text-textSecondary leading-relaxed">
+            We're growing fast and hiring researchers, writers, video editors, and distribution strategists who treat media production as an exact discipline.
+          </p>
+
+          <div class="pt-4 flex flex-wrap gap-4">
+            <a href="careers.html" class="px-8 py-4 bg-accent hover:bg-accentHover text-bg font-sans text-xs font-extrabold uppercase tracking-widest rounded-full transition-all shadow-[0_0_25px_rgba(212,255,0,0.25)] flex items-center gap-2">
+              <span>View Open Roles</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================
+       06 CONTACT / TRANSMISSION STRIP
+       ======================================================== -->
+  <section class="py-24 sm:py-36 border-b border-border bg-surface/40">
+    <div class="max-w-4xl mx-auto px-6 text-center space-y-8">
+      <div class="text-xs font-mono text-accent uppercase tracking-widest">START A PROJECT</div>
+      <h2 class="font-display font-extrabold text-4xl sm:text-6xl text-white tracking-tight leading-tight">
+        Have something worth building?
+      </h2>
+      <p class="font-sans text-base sm:text-lg text-textSecondary leading-relaxed max-w-2xl mx-auto">
+        Tell us about the show you want to produce, the brand narrative you need to build, or the audience you want to own.
+      </p>
+      <div class="pt-4 flex flex-wrap justify-center gap-4">
+        <a href="contact.html" class="px-9 py-4 bg-accent hover:bg-accentHover text-bg font-sans text-xs font-extrabold uppercase tracking-widest rounded-full transition-all shadow-[0_0_30px_rgba(212,255,0,0.3)] flex items-center gap-2">
+          <span>Start A Conversation</span>
+          <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+      <div class="font-mono text-xs text-textMuted pt-4">
+        HQ: CIVIL LINES & SANGAM HUB, PRAYAGRAJ · HELLO@ZEROUP.STUDIO
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPREHENSIVE PRO FOOTER -->
+  <footer class="py-16 sm:py-20 border-t border-border bg-bg text-xs font-sans text-textSecondary">
+    <div class="max-w-7xl mx-auto px-6 sm:px-12 space-y-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-border">
+        
+        <!-- Col 1: Brand & Mission -->
+        <div class="lg:col-span-2 space-y-4">
+          <div class="space-y-3">
+            <a href="index.html" class="inline-block group">
+              <img src="/zeroup-logo-transparent.png" alt="ZEROUP Logo" class="h-11 sm:h-12 w-auto object-contain drop-shadow-[0_0_15px_rgba(212,255,0,0.25)] group-hover:scale-105 transition-transform" />
+            </a>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-mono text-accent bg-surface border border-border px-2.5 py-1 rounded-full inline-flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span> PRAYAGRAJ, INDIA 🇮🇳
+              </span>
+            </div>
+          </div>
+          <p class="text-sm text-textSecondary leading-relaxed max-w-sm">
+            Content & Distribution Company based in Prayagraj, India. We build original content systems, executive founder media, and compounding media IP for ambitious companies across India.
+          </p>
+          <div class="pt-2 font-mono text-xs text-textMuted space-y-1">
+            <div class="text-accent font-semibold">DIRECT INBOX: HELLO@ZEROUP.STUDIO</div>
+            <div>HQ: Civil Lines & Sangam Hub, Prayagraj, UP, India · 211001</div>
+          </div>
+        </div>
+
+        <!-- Col 2: The System -->
+        <div class="space-y-3">
+          <div class="font-mono text-xs font-bold text-white uppercase tracking-wider">THE SYSTEM</div>
+          <ul class="space-y-2 text-textSecondary">
+            <li><a href="services.html" class="hover:text-accent">01 / Brand Engine</a></li>
+            <li><a href="services.html" class="hover:text-accent">02 / Founder Engine</a></li>
+            <li><a href="services.html" class="hover:text-accent">03 / IP Engine</a></li>
+            <li><a href="services.html" class="hover:text-accent">Distribution Architecture</a></li>
+            <li><a href="#how-it-works" class="hover:text-accent">How It Works</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Real Clients -->
+        <div class="space-y-3">
+          <div class="font-mono text-xs font-bold text-white uppercase tracking-wider">CLIENT PRODUCTIONS</div>
+          <ul class="space-y-2 text-textSecondary">
+            <li>
+              <a href="https://prayagrajrooms.in/" target="_blank" rel="noopener noreferrer" class="hover:text-accent flex items-center gap-1.5 transition-colors">
+                <span>Prayagraj Rooms</span>
+                <i data-lucide="external-link" class="w-3 h-3 text-textMuted"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://vindhyamillets.com/" target="_blank" rel="noopener noreferrer" class="hover:text-accent flex items-center gap-1.5 transition-colors">
+                <span>Vindhya Millets</span>
+                <i data-lucide="external-link" class="w-3 h-3 text-textMuted"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.pathsynclearning.com/" target="_blank" rel="noopener noreferrer" class="hover:text-accent flex items-center gap-1.5 transition-colors">
+                <span>PathSync Learning</span>
+                <i data-lucide="external-link" class="w-3 h-3 text-textMuted"></i>
+              </a>
+            </li>
+            <li>
+              <a href="case-studies.html" class="text-accent hover:underline font-medium pt-1 block">View Empirical Benchmarks →</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Studio & Lab -->
+        <div class="space-y-3">
+          <div class="font-mono text-xs font-bold text-white uppercase tracking-wider">PRAYAGRAJ STUDIO</div>
+          <ul class="space-y-2 text-textSecondary">
+            <li><a href="blogs.html" class="hover:text-accent">The Attention Lab</a></li>
+            <li><a href="about.html" class="hover:text-accent">About ZEROUP</a></li>
+            <li><a href="careers.html" class="hover:text-accent">Open Careers (Hiring)</a></li>
+            <li><a href="contact.html" class="hover:text-accent">Start a Conversation</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-textMuted font-mono">
+        <div>© 2026 ZEROUP Systems. Engineered with craft in Prayagraj, Uttar Pradesh, India 🇮🇳.</div>
+        <div class="text-accent flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+          <span>PROPRIETARY MEDIA IP & DISTRIBUTION INFRASTRUCTURE</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+    const mobileBtn = document.getElementById('mobile-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+  </script>
+  
+  <!-- ========================================================
+       FULLSCREEN MULTI-PAGE STUDIO BOOK MODAL
+       ======================================================== -->
+  <div id="studio-book-modal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-2xl flex items-center justify-center p-3 sm:p-6 transition-all duration-300">
+    <div class="relative w-full max-w-5xl bg-[#0D0F14] border border-[#D4FF00]/40 rounded-3xl shadow-[0_0_80px_rgba(0,0,0,0.95)] flex flex-col overflow-hidden max-h-[92vh]">
+      
+      <!-- Top Modal Header -->
+      <div class="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-surface/80 font-mono text-xs">
+        <div class="flex items-center gap-3">
+          <img src="/zeroup-icon.svg" alt="ZEROUP Icon" class="w-6 h-6 object-contain" />
+          <span class="text-white font-bold tracking-wider uppercase">ZEROUP · STUDIO ARCHIVAL COMPENDIUM</span>
+          <span class="text-white/30">|</span>
+          <span class="text-accent font-semibold">VOL. 01 (24 FPS)</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <span id="book-spread-counter" class="text-accent font-bold tracking-widest">SPREAD 01 / 04</span>
+          <button id="close-studio-book" class="p-1.5 px-3 rounded-lg border border-white/20 hover:border-accent text-white hover:text-accent transition-colors" title="Close (ESC)">
+            ✕ CLOSE
+          </button>
+        </div>
+      </div>
+
+      <!-- Book Spread Viewer Body -->
+      <div class="flex-1 p-4 sm:p-8 overflow-y-auto">
+        
+        <!-- SPREAD 01: The Attention Paradox & ZeroUp Thesis -->
+        <div class="studio-spread grid grid-cols-1 md:grid-cols-2 gap-6 h-full transition-all duration-300">
+          <!-- Page 01 (Left) -->
+          <div class="p-6 sm:p-8 rounded-2xl bg-[#14171F] border border-white/10 flex flex-col justify-between space-y-6 text-sm">
+            <div class="flex items-center justify-between border-b border-white/10 pb-3 font-mono text-[11px] text-white/50">
+              <span class="font-bold text-accent uppercase tracking-wider">CHAPTER I · ATTENTION PARADOX</span>
+              <span>PAGE 01 / 08</span>
+            </div>
+            <div class="space-y-4 text-textSecondary font-mono text-xs leading-relaxed">
+              <div class="text-[10px] text-white/40 uppercase">EXT. DIGITAL ATTENTION LANDSCAPE — DAY</div>
+              <p class="text-white text-sm font-sans leading-relaxed">
+                <strong class="text-white font-bold">The Conventional Trap:</strong> Most brands spend lakhs renting temporary eyeballs through Meta and Google ads. The exact millisecond your ad spend pauses, your brand evaporates into thin air.
+              </p>
+              <div class="p-4 rounded-xl bg-surface border border-white/10 space-y-2">
+                <div class="text-accent font-bold">THE ALGORITHM TREADMILL:</div>
+                <div class="text-white/80">CAC keeps compounding up. Customer loyalty keeps crashing down. You build audience equity for the platform — not for yourself.</div>
+              </div>
+            </div>
+            <div class="pt-3 border-t border-white/10 font-mono text-[10px] text-white/40 flex justify-between">
+              <span>ZEROUP RESEARCH NOTE</span>
+              <span>PRAYAGRAJ · 2026</span>
+            </div>
+          </div>
+
+          <!-- Page 02 (Right) -->
+          <div class="p-6 sm:p-8 rounded-2xl bg-[#FAF7EF] text-[#14171F] border border-[#DDD7C8] flex flex-col justify-between space-y-6 text-sm shadow-xl">
+            <div class="flex items-center justify-between border-b border-[#E2DCCE] pb-3 font-mono text-[11px] text-[#666]">
+              <span class="font-bold text-[#08090C] uppercase tracking-wider">THE ZEROUP THESIS</span>
+              <span>PAGE 02 / 08</span>
+            </div>
+            <div class="space-y-4 text-xs font-mono leading-relaxed">
+              <h3 class="font-display font-extrabold text-2xl text-[#08090C] leading-snug">
+                Own distribution.<br />Build audience IP that compounds.
+              </h3>
+              <p class="text-[#333] font-sans text-sm leading-relaxed">
+                When you create episodic video series, founder narratives, and cultural IP, your audience chooses to tune in voluntarily. Trust compounds, organic discovery scales, and zero money is donated to ad platforms.
+              </p>
+              <div class="p-3 bg-[#EBF7C6] rounded-xl border border-[#C6DC82] text-[#1A3300] font-mono text-[11px] font-bold">
+                STRATEGY → CONTENT → DISTRIBUTION → AUDIENCE → IP
+              </div>
+            </div>
+            <div class="pt-3 border-t border-[#E2DCCE] font-mono text-[10px] text-[#777] flex justify-between">
+              <span>DIRECTOR'S LOG</span>
+              <span>PAGE 02 / PROPRIETARY</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SPREAD 02: The Three Engines -->
+        <div class="studio-spread grid grid-cols-1 md:grid-cols-2 gap-6 h-full transition-all duration-300 hidden">
+          <!-- Page 03 (Left) -->
+          <div class="p-6 sm:p-8 rounded-2xl bg-[#14171F] border border-white/10 flex flex-col justify-between space-y-6 text-sm">
+            <div class="flex items-center justify-between border-b border-white/10 pb-3 font-mono text-[11px] text-white/50">
+              <span class="font-bold text-accent uppercase tracking-wider">CHAPTER II · THE ENGINES</span>
+              <span>PAGE 03 / 08</span>
+            </div>
+            <div class="space-y-4">
+              <div class="space-y-2">
+                <span class="px-2.5 py-1 rounded bg-accent/10 border border-accent/30 text-accent font-mono text-[10px] font-bold uppercase">01 / BRAND ENGINE</span>
+                <h4 class="font-display font-bold text-lg text-white">Compounding D2C & Brand Media</h4>
+                <p class="text-textSecondary text-xs leading-relaxed">
+                  High-retention docu-series and cultural origin narratives that convert passive scrollers into passionate organic brand advocates.
+                </p>
+              </div>
+              <div class="space-y-2 pt-2 border-t border-white/10">
+                <span class="px-2.5 py-1 rounded bg-accent/10 border border-accent/30 text-accent font-mono text-[10px] font-bold uppercase">02 / FOUNDER ENGINE</span>
+                <h4 class="font-display font-bold text-lg text-white">Executive Authority & Podcasts</h4>
+                <p class="text-textSecondary text-xs leading-relaxed">
+                  Turn founder insight into authoritative video podcasts and LinkedIn executive distribution that attracts top talent and clients.
+                </p>
+              </div>
+            </div>
+            <div class="pt-3 border-t border-white/10 font-mono text-[10px] text-white/40 flex justify-between">
+              <span>THE ZEROUP SYSTEM</span>
+              <span>SECTION 02</span>
+            </div>
+          </div>
+
+          <!-- Page 04 (Right) -->
+          <div class="p-6 sm:p-8 rounded-2xl bg-[#14171F] border border-white/10 flex flex-col justify-between space-y-6 text-sm">
+            <div class="flex items-center justify-between border-b border-white/10 pb-3 font-mono text-[11px] text-white/50">
+              <span class="font-bold text-accent uppercase tracking-wider">ENGINE 03 · ORIGINAL IP</span>
+              <span>PAGE 04 / 08</span>
+            </div>
+            <div class="space-y-5">
+              <div class="space-y-2">
+                <span class="px-2.5 py-1 rounded bg-accent text-bg font-mono text-[10px] font-black uppercase">03 / IP ENGINE</span>
+                <h4 class="font-display font-bold text-xl text-white">Owned Media Franchises</h4>
+                <p class="text-textSecondary text-xs leading-relaxed">
+                  Episodic recurring series, video newsletters, and digital IPs that your brand owns 100%. Immune to algorithm shifts because viewers actively subscribe.
+                </p>
+              </div>
+              <div class="p-4 rounded-xl bg-surface border border-accent/30 font-mono text-xs text-white space-y-2">
+                <div class="text-accent font-bold">THE MULTIPLIER EFFECT:</div>
+                <div class="text-white/80">One cinematic production session generates 1 flagship episode, 6 micro-docs, 12 viral reels, and 3 executive newsletters.</div>
+              </div>
+            </div>
+            <div class="pt-3 border-t border-white/10 font-mono text-[10px] text-white/40 flex justify-between">
+              <span>ZEROUP ENGINE ARCHITECTURE</span>
+              <span>PAGE 04</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SPREAD 03: Client Productions (Active in India) -->
+        <div class="studio-spread grid grid-cols-1 md:grid-cols-2 gap-6 h-full transition-all duration-300 hidden">
+          <!-- Page 05 (Left) -->
+          <div class="p-6 sm:p-8 rounded-2xl bg-[#FAF7EF] text-[#14171F] border border-[#DDD7C8] flex flex-col justify-between space-y-5 shadow-xl">
+            <div class="flex items-center justify-between border-b border-[#E2DCCE] pb-3 font-mono text-[11px] text-[#666]">
+              <span class="font-bold text-[#08090C] uppercase tracking-wider">ACTIVE CLIENT PRODUCTIONS</span>
+              <span>PAGE 05 / 08</span>
+            </div>
+            <div class="space-y-4">
+              <!-- Client 01 -->
+              <a href="https://prayagrajrooms.in/" target="_blank" rel="noopener noreferrer" class="block p-3.5 rounded-xl bg-[#F0ECE1] hover:bg-[#E8E2D4] border border-[#DDD7C8] transition-all group">
+                <div class="flex justify-between font-mono text-[11px]">
+                  <strong class="text-[#08090C] uppercase font-bold">01 · Prayagraj Rooms</strong>
+                  <span class="text-accent bg-[#08090C] px-2 py-0.5 rounded text-[10px] font-bold">prayagrajrooms.in ↗</span>
+                </div>
+                <p class="text-xs text-[#444] font-sans mt-1">
+                  Student & room discovery walkthroughs. Eliminating broker ad spend via localized documentary video.
+                </p>
+              </a>
+              <!-- Client 02 -->
+              <a href="https://vindhyamillets.com/" target="_blank" rel="noopener noreferrer" class="block p-3.5 rounded-xl bg-[#EBF7C6] hover:bg-[#E3F2B3] border border-[#C6DC82] transition-all group">
+                <div class="flex justify-between font-mono text-[11px]">
+                  <strong class="text-[#1A3300] uppercase font-bold">02 · Vindhya Millets</strong>
+                  <span class="text-[#1A3300] font-bold">vindhyamillets.com ↗</span>
+                </div>
+                <p class="text-xs text-[#2A4405] font-sans mt-1">
+                  Farm-to-table origin docu-series and nutritional health IP building loyal organic buyers.
+                </p>
+              </a>
+            </div>
+            <div class="pt-3 border-t border-[#E2DCCE] font-mono text-[10px] text-[#777] flex justify-between">
+              <span>LIVE CASE STUDIES</span>
+              <span>UP & PAN-INDIA 🇮🇳</span>
+            </div>
+          </div>
+
+          <!-- Page 06 (Right) -->
+          <div class="p-6 sm:p-8 rounded-2xl bg-[#14171F] border border-white/10 flex flex-col justify-between space-y-5">
+            <div class="flex items-center justify-between border-b border-white/10 pb-3 font-mono text-[11px] text-white/50">
+              <span class="font-bold text-accent uppercase tracking-wider">CASE STUDY 03</span>
+              <span>PAGE 06 / 08</span>
+            </div>
+            <div class="space-y-4">
+              <!-- Client 03 -->
+              <a href="https://www.pathsynclearning.com/" target="_blank" rel="noopener noreferrer" class="block p-4 rounded-xl bg-surface hover:bg-surfaceHover border border-white/15 hover:border-accent transition-all group">
+                <div class="flex justify-between font-mono text-[11px]">
+                  <strong class="text-white uppercase font-bold">03 · PathSync Learning</strong>
+                  <span class="text-accent group-hover:underline">pathsynclearning.com ↗</span>
+                </div>
+                <p class="text-xs text-textSecondary font-sans mt-2 leading-relaxed">
+                  Executive podcast and career framework IP attracting high-intent ambitious learners pan-India without aggressive paid ad funnels.
+                </p>
+              </a>
+              <div class="p-3.5 rounded-xl bg-accent/10 border border-accent/30 font-mono text-xs text-accent space-y-1">
+                <div class="font-bold">PRODUCTION HIGHLIGHT:</div>
+                <div class="text-white/80 text-[11px]">All 3 brands have zero dependency on third-party brokers or ad volatility.</div>
+              </div>
+            </div>
+            <div class="pt-3 border-t border-white/10 font-mono text-[10px] text-white/40 flex justify-between">
+              <span>OWNED DISTRIBUTION</span>
+              <span>PAGE 06</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SPREAD 04: Coordinates & Direct Line -->
+        <div class="studio-spread grid grid-cols-1 md:grid-cols-2 gap-6 h-full transition-all duration-300 hidden">
+          <!-- Page 07 (Left) -->
+          <div class="p-6 sm:p-8 rounded-2xl bg-[#14171F] border border-white/10 flex flex-col justify-between space-y-6">
+            <div class="flex items-center justify-between border-b border-white/10 pb-3 font-mono text-[11px] text-white/50">
+              <span class="font-bold text-accent uppercase tracking-wider">STUDIO SPECIFICATIONS</span>
+              <span>PAGE 07 / 08</span>
+            </div>
+            <div class="space-y-3 font-mono text-xs text-textSecondary">
+              <div class="text-white font-bold text-sm font-sans">ZEROUP SYSTEMS & PRODUCTION HQ</div>
+              <div>COORDINATES: Civil Lines & Sangam Hub, Prayagraj, UP · 211001 🇮🇳</div>
+              <div>FORMATS: 35mm Cinema Aesthetic · 24 FPS · Analog Master</div>
+              <div>DIRECT CONTACT: HELLO@ZEROUP.STUDIO</div>
+            </div>
+            <div class="pt-3 border-t border-white/10 font-mono text-[10px] text-white/40 flex justify-between">
+              <span>EST. 2026 · PRAYAGRAJ</span>
+              <span>PAGE 07</span>
+            </div>
+          </div>
+
+          <!-- Page 08 (Right) -->
+          <div class="p-6 sm:p-8 rounded-2xl bg-[#FAF7EF] text-[#14171F] border border-[#DDD7C8] flex flex-col justify-between space-y-6 shadow-xl">
+            <div class="flex items-center justify-between border-b border-[#E2DCCE] pb-3 font-mono text-[11px] text-[#666]">
+              <span class="font-bold text-[#08090C] uppercase tracking-wider">START A CONVERSATION</span>
+              <span>PAGE 08 / 08</span>
+            </div>
+            <div class="space-y-4 text-center my-auto">
+              <h3 class="font-display font-extrabold text-3xl text-[#08090C]">
+                Ready to own your distribution?
+              </h3>
+              <p class="font-sans text-xs text-[#555] max-w-sm mx-auto">
+                Let's engineer your brand's original media IP, episodic docu-series, and executive content systems.
+              </p>
+              <div class="pt-2">
+                <a href="contact.html" class="inline-flex items-center gap-2 px-7 py-3 rounded-full bg-[#08090C] hover:bg-[#1E2330] text-accent font-mono text-xs font-bold uppercase tracking-wider transition-all shadow-lg">
+                  <span>Start A Project Commission</span>
+                  <span>↗</span>
+                </a>
+              </div>
+            </div>
+            <div class="pt-3 border-t border-[#E2DCCE] font-mono text-[10px] text-[#777] flex justify-between">
+              <span>© 2026 ZEROUP SYSTEMS</span>
+              <span>PRAYAGRAJ, INDIA 🇮🇳</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Modal Navigation Bar -->
+      <div class="flex items-center justify-between px-6 py-4 border-t border-white/10 bg-surface/90 font-mono text-xs">
+        <button id="book-prev-spread" class="px-4 py-2 rounded-xl border border-white/20 hover:border-accent text-white hover:text-accent disabled:opacity-30 disabled:pointer-events-none transition-all flex items-center gap-2">
+          <span>←</span>
+          <span>PREVIOUS SPREAD</span>
+        </button>
+        <div class="hidden sm:block text-[11px] text-textMuted">
+          [Use ← / → Arrow Keys to Turn Pages]
+        </div>
+        <button id="book-next-spread" class="px-4 py-2 rounded-xl bg-accent hover:bg-accentHover text-bg font-extrabold disabled:opacity-30 disabled:pointer-events-none transition-all flex items-center gap-2 shadow-md">
+          <span>NEXT SPREAD</span>
+          <span>→</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================================
+       SHOWREEL VIDEO MODAL
+       ======================================================== -->
+  <div id="showreel-modal" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-2xl flex items-center justify-center p-4 sm:p-8 transition-all">
+    <div class="relative w-full max-w-4xl bg-[#0D0F14] border border-[#D4FF00]/40 rounded-3xl overflow-hidden shadow-2xl flex flex-col">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-surface/80 font-mono text-xs">
+        <div class="flex items-center gap-2.5">
+          <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+          <span class="text-white font-bold">ZEROUP · 35MM CINEMATIC SHOWREEL (2026)</span>
+        </div>
+        <button id="close-showreel" class="text-white hover:text-accent font-mono text-xs">
+          ✕ CLOSE
+        </button>
+      </div>
+      <div class="aspect-video w-full bg-black relative flex items-center justify-center overflow-hidden">
+        <img src="/hero-studio-workspace.png" alt="Showreel Trailer" class="w-full h-full object-cover filter brightness-50" />
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center p-6 space-y-4">
+          <div class="w-20 h-20 rounded-full border-2 border-accent bg-accent/20 flex items-center justify-center text-accent text-2xl shadow-[0_0_30px_rgba(212,255,0,0.4)] animate-pulse">
+            ▷
+          </div>
+          <div class="font-display font-black text-2xl sm:text-3xl text-white">
+            Build Attention. Own Distribution.
+          </div>
+          <p class="font-mono text-xs text-textSecondary max-w-md">
+            Flagship docu-series, founder podcasts, and compounding media IP engineered by ZEROUP in Prayagraj, India.
+          </p>
+        </div>
+      </div>
+      <div class="p-4 border-t border-white/10 bg-surface text-center font-mono text-xs text-textMuted">
+        PRODUCTION RUNTIME: 01:24 · AUDIO: 24-BIT MASTER · 35MM GRAIN
+      </div>
+    </div>
+  </div>
+
+  <!-- 3D Wave Engine -->
+  <script src="/wave-background.js"></script>
+  <!-- 3D Radar Globe Topology Engine -->
+  <script src="/radar-sphere.js"></script>
+  <!-- Cinematic Pure Web Audio & 3D Book SFX Engine -->
+  <script src="/soundtrack.js"></script>
+  <!-- Studio Interactive Experience Engine (Cursor, 3D Parallax, Modals) -->
+  <script src="/studio-interactions.js"></script>
+  <script>
+    // 3D Book Pin & SFX Interactive Handlers
+    const stage = document.getElementById('book-stage');
+    const pinBtn = document.getElementById('toggle-book-pin');
+    const pinText = document.getElementById('pin-text');
+    let isPinned = false;
+
+    if (pinBtn && stage) {
+      pinBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        isPinned = !isPinned;
+        if (isPinned) {
+          stage.classList.add('is-open');
+          pinText.textContent = 'CLOSE BOOK ✕';
+          if (window.ZEROUP_AUDIO) window.ZEROUP_AUDIO.playPageFlip();
+        } else {
+          stage.classList.remove('is-open');
+          pinText.textContent = 'PIN BOOK OPEN 📖';
+          if (window.ZEROUP_AUDIO) window.ZEROUP_AUDIO.playPageFlip();
+        }
+      });
+
+      stage.addEventListener('mouseenter', () => {
+        if (!isPinned && window.ZEROUP_AUDIO) {
+          window.ZEROUP_AUDIO.playPageFlip();
+        }
+      });
+
+      stage.addEventListener('click', (e) => {
+        // If clicking a link inside book, let link work
+        if (e.target.closest('a')) return;
+        isPinned = !isPinned;
+        stage.classList.toggle('is-open', isPinned);
+        pinText.textContent = isPinned ? 'CLOSE BOOK ✕' : 'PIN BOOK OPEN 📖';
+        if (window.ZEROUP_AUDIO) window.ZEROUP_AUDIO.playPageFlip();
+      });
+    }
+  </script>
+</body>
+</html>

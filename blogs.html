@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab & Research — ZEROUP | Attention Science</title>
+  <!-- Favicon & Vector Brand Icon -->
+  <link rel="icon" type="image/svg+xml" href="/zeroup-icon.svg" />
+  <link rel="apple-touch-icon" href="/zeroup-logo.png" />
+  <meta name="description" content="Working papers on retention mathematics, algorithmic game theory, and media infrastructure by ZEROUP Attention Lab in Prayagraj." />
+
+  <!-- Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            bg: '#08090C',
+            surface: '#0F1117',
+            surfaceHover: '#161922',
+            accent: '#D4FF00',
+            accentHover: '#E2FF33',
+            border: 'rgba(255, 255, 255, 0.08)',
+            borderLight: 'rgba(255, 255, 255, 0.14)',
+            textPrimary: '#FFFFFF',
+            textSecondary: '#94A3B8',
+            textMuted: '#64748B'
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            display: ['"Space Grotesk"', '"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Three.js for 3D Particle Wave Background Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    ::selection { background-color: #D4FF00; color: #08090C; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #08090C; }
+    ::-webkit-scrollbar-thumb { background: #1E2330; border-radius: 3px; }
+  </style>
+</head>
+<body class="bg-bg text-textPrimary antialiased min-h-screen selection:bg-accent selection:text-bg relative">
+
+  <!-- 3D DYNAMIC PARTICLE WAVE BACKGROUND (Canvas / WebGL Engine) -->
+  <div id="wave-bg" class="fixed inset-0 pointer-events-none z-0 opacity-40 overflow-hidden"></div>
+
+  <!-- CLEAN AIRY NAVBAR -->
+  <header class="sticky top-0 z-50 bg-bg/90 backdrop-blur-xl border-b border-border">
+    <div class="max-w-7xl mx-auto px-6 sm:px-12 h-16 sm:h-18 flex items-center justify-between">
+      
+      <!-- Brand Logo & Vector Icon -->
+      <a href="index.html" class="flex items-center gap-3 sm:gap-3.5 group">
+        <!-- SVG Vector Icon from Second Image -->
+        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface/90 border border-accent/40 p-1.5 flex items-center justify-center shadow-[0_0_15px_rgba(212,255,0,0.2)] group-hover:border-accent group-hover:shadow-[0_0_25px_rgba(212,255,0,0.4)] transition-all">
+          <img src="/zeroup-icon.svg" alt="ZEROUP Icon" class="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(212,255,0,0.6)] transform group-hover:scale-110 transition-transform duration-300" />
+        </div>
+        <!-- Wordmark & Tagline from First Image -->
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <span class="font-display font-extrabold text-xl sm:text-2xl tracking-tight text-white leading-none">
+              ZEROUP<span class="text-accent">.</span>
+            </span>
+            <span class="text-[9px] font-mono text-accent bg-surface border border-border px-2 py-0.5 rounded-full hidden sm:inline-flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span> INDIA 🇮🇳
+            </span>
+          </div>
+          <span class="font-mono text-[8px] sm:text-[9px] tracking-widest text-textMuted uppercase pt-1 hidden xs:block group-hover:text-accent transition-colors">
+            BUILD ATTENTION. OWN DISTRIBUTION.
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Links -->
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium tracking-normal text-textSecondary">
+        <a href="index.html" class="hover:text-white transition-colors">Home</a>
+        <a href="services.html" class="hover:text-white transition-colors">The System</a>
+        <a href="index.html#clients" class="hover:text-white transition-colors">Clients</a>
+        <a href="case-studies.html" class="hover:text-white transition-colors">Work</a>
+        <a href="blogs.html" class="flex items-center gap-1.5 text-white font-semibold">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_6px_#D4FF00]"></span> Lab
+        </a>
+        <a href="about.html" class="hover:text-white transition-colors">About</a>
+        <a href="careers.html" class="hover:text-white transition-colors">Careers</a>
+      </nav>
+
+      <!-- Right Pill Action -->
+      <div class="flex items-center gap-4">
+        <a href="contact.html" class="px-5 py-2.5 rounded-full border border-white/20 hover:border-accent text-white hover:text-accent font-sans text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm">
+          <span>Get in Touch</span>
+          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-accent"></i>
+        </a>
+        <button id="mobile-toggle" class="md:hidden p-2 text-textSecondary hover:text-white border border-border rounded-lg">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden border-b border-border bg-surface px-6 py-6 space-y-4 text-sm font-sans">
+      <a href="index.html" class="block text-textSecondary hover:text-white">Home</a>
+      <a href="services.html" class="block text-textSecondary hover:text-white">The System (Three Engines)</a>
+      <a href="index.html#clients" class="block text-textSecondary hover:text-white">Clients & Productions</a>
+      <a href="case-studies.html" class="block text-textSecondary hover:text-white">Work (Case Studies)</a>
+      <a href="blogs.html" class="block text-accent font-bold">Lab & Research</a>
+      <a href="about.html" class="block text-textSecondary hover:text-white">About Us</a>
+      <a href="careers.html" class="block text-textSecondary hover:text-white">Careers</a>
+      <a href="contact.html" class="block text-accent font-bold pt-2 border-t border-border">Contact Us →</a>
+    </div>
+  </header>
+
+  <!-- PAGE HEADER (Tight Spacing Below Navbar) -->
+  <section class="pt-10 pb-14 sm:pt-14 sm:pb-18 border-b border-border bg-surface/30">
+    <div class="max-w-7xl mx-auto px-6 sm:px-12 space-y-5">
+      <div class="flex items-center gap-2 font-mono text-xs tracking-wider text-accent uppercase">
+        <span class="w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_8px_#D4FF00]"></span>
+        <span>RESEARCH ESSAYS · THE ATTENTION LAB</span>
+      </div>
+      <h1 class="font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[1.08] text-white">
+        The chessboard<br />
+        <span class="text-accent">of attention.</span>
+      </h1>
+      <p class="font-sans text-base sm:text-lg text-textSecondary leading-relaxed max-w-2xl font-normal">
+        Content is an empirical discipline. Our working papers on retention mathematics, algorithmic game theory, and media infrastructure.
+      </p>
+
+      <!-- Visual Pipeline Flow Pill -->
+      <div class="pt-2">
+        <div class="inline-flex items-center gap-2 sm:gap-2.5 flex-wrap font-mono text-[11px] sm:text-xs text-white bg-surface/90 border border-white/10 px-3.5 py-2 rounded-xl backdrop-blur-md">
+          <span class="text-accent font-bold">STRATEGY</span>
+          <span class="text-textMuted">→</span>
+          <span class="text-white/90">CONTENT</span>
+          <span class="text-textMuted">→</span>
+          <span class="text-white/90">DISTRIBUTION</span>
+          <span class="text-textMuted">→</span>
+          <span class="text-white/90">AUDIENCE</span>
+          <span class="text-textMuted">→</span>
+          <span class="text-accent font-bold">IP</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BLOGS & RESEARCH PAPERS -->
+  <section class="py-20 sm:py-28 border-b border-border">
+    <div class="max-w-7xl mx-auto px-6 sm:px-12">
+      
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-start">
+        
+        <!-- Left Column: Uploaded Chessboard Image -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative rounded-2xl overflow-hidden border border-borderLight bg-surface shadow-2xl group">
+            <img src="strategy_chess_styled.jpg" alt="ZEROUP Attention Game Theory & Mathematics of Distribution — Prayagraj 2026" class="w-full h-auto max-h-[580px] object-cover object-top group-hover:scale-105 transition-transform duration-700" />
+            <div class="absolute inset-0 bg-gradient-to-t from-bg via-transparent to-transparent pointer-events-none"></div>
+
+            <div class="absolute bottom-5 left-5 right-5 bg-bg/90 backdrop-blur-md p-5 rounded-xl border border-border">
+              <div class="flex items-center justify-between text-xs font-mono mb-1.5">
+                <span class="text-accent font-bold flex items-center gap-1.5">
+                  <i data-lucide="cpu" class="w-3.5 h-3.5"></i> GAME THEORY LAB
+                </span>
+                <span class="text-textMuted">PRAYAGRAJ · 2026</span>
+              </div>
+              <p class="font-sans text-xs text-textSecondary leading-relaxed">
+                "Every show we launch is a calculated strategic move on the distribution board."
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: 3 Clean Research Essays -->
+        <div class="lg:col-span-7 space-y-8">
+          
+          <!-- Article 01 -->
+          <article class="p-8 sm:p-10 rounded-2xl bg-surface border border-border hover:border-accent transition-all space-y-4 group">
+            <div class="flex items-center justify-between font-mono text-xs text-textMuted pb-3 border-b border-border">
+              <span class="text-accent font-bold uppercase">WORKING PAPER 01</span>
+              <span>4 MIN READ · OCT 2026</span>
+            </div>
+            <h2 class="font-display font-bold text-2xl text-white group-hover:text-accent transition-colors">
+              Why Renting Attention on Paid Ads Is Broken in 2026
+            </h2>
+            <p class="font-sans text-base text-textSecondary leading-relaxed">
+              Rising customer acquisition costs and audience ad fatigue are forcing brands to rethink content as infrastructure. The second ads stop, traffic hits zero. How owned media creates compounding, zero-marginal-cost distribution.
+            </p>
+            <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-mono text-textMuted">
+              <span>TAG: CAC INFLATION × OWNED IP</span>
+              <span class="text-accent font-bold">Editorial Paper →</span>
+            </div>
+          </article>
+
+          <!-- Article 02 -->
+          <article class="p-8 sm:p-10 rounded-2xl bg-surface border border-border hover:border-accent transition-all space-y-4 group">
+            <div class="flex items-center justify-between font-mono text-xs text-textMuted pb-3 border-b border-border">
+              <span class="text-accent font-bold uppercase">WORKING PAPER 02</span>
+              <span>6 MIN READ · SEP 2026</span>
+            </div>
+            <h2 class="font-display font-bold text-2xl text-white group-hover:text-accent transition-colors">
+              How Founder-Led Media Replaces Traditional Corporate PR
+            </h2>
+            <p class="font-sans text-base text-textSecondary leading-relaxed">
+              Why corporate press releases fail to move business needles and how conducting monthly Socratic thought-extraction interviews converts CEO expertise into high-signal LinkedIn frameworks, essays, and enterprise pipeline.
+            </p>
+            <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-mono text-textMuted">
+              <span>TAG: FOUNDER MEDIA × LINKEDIN IP</span>
+              <span class="text-accent font-bold">Editorial Paper →</span>
+            </div>
+          </article>
+
+          <!-- Article 03 -->
+          <article class="p-8 sm:p-10 rounded-2xl bg-surface border border-border hover:border-accent transition-all space-y-4 group">
+            <div class="flex items-center justify-between font-mono text-xs text-textMuted pb-3 border-b border-border">
+              <span class="text-accent font-bold uppercase">WORKING PAPER 03</span>
+              <span>5 MIN READ · AUG 2026</span>
+            </div>
+            <h2 class="font-display font-bold text-2xl text-white group-hover:text-accent transition-colors">
+              The Mathematics of Retention: Algorithmic Distribution vs. Hope
+            </h2>
+            <p class="font-sans text-base text-textSecondary leading-relaxed">
+              A deep dive into 3-second hook drop-off rates, average percentage viewed (APV), and algorithmic syndication loops across YouTube, Instagram, and X. Why viral reach without proprietary media IP creates zero enterprise leverage.
+            </p>
+            <div class="pt-3 border-t border-border flex items-center justify-between text-xs font-mono text-textMuted">
+              <span>TAG: RETENTION SCIENCE × ALGORITHM PHYSICS</span>
+              <span class="text-accent font-bold">Editorial Paper →</span>
+            </div>
+          </article>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TRANSMISSION STRIP -->
+  <section class="py-20 sm:py-28 border-b border-border bg-surface/40">
+    <div class="max-w-4xl mx-auto px-6 text-center space-y-6">
+      <div class="text-xs font-mono text-accent uppercase tracking-widest">START A PROJECT</div>
+      <h2 class="font-display font-extrabold text-3xl sm:text-5xl text-white tracking-tight leading-tight">
+        Have something worth building?
+      </h2>
+      <p class="font-sans text-base sm:text-lg text-textSecondary leading-relaxed max-w-2xl mx-auto">
+        Tell us about the show you want to produce, the brand narrative you need to build, or the audience you want to own.
+      </p>
+      <div class="pt-4 flex justify-center">
+        <a href="contact.html" class="px-9 py-4 bg-accent hover:bg-accentHover text-bg font-sans text-xs font-extrabold uppercase tracking-widest rounded-full transition-all shadow-[0_0_30px_rgba(212,255,0,0.3)] flex items-center gap-2">
+          <span>Start A Conversation</span>
+          <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+      <div class="font-mono text-xs text-textMuted pt-2">
+        HQ: CIVIL LINES & SANGAM HUB, PRAYAGRAJ · HELLO@ZEROUP.STUDIO
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPREHENSIVE PRO FOOTER -->
+  <footer class="py-16 sm:py-20 border-t border-border bg-bg text-xs font-sans text-textSecondary">
+    <div class="max-w-7xl mx-auto px-6 sm:px-12 space-y-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-border">
+        
+        <!-- Col 1: Brand & Mission -->
+        <div class="lg:col-span-2 space-y-4">
+          <div class="space-y-3">
+            <a href="index.html" class="inline-block group">
+              <img src="/zeroup-logo-transparent.png" alt="ZEROUP Logo" class="h-11 sm:h-12 w-auto object-contain drop-shadow-[0_0_15px_rgba(212,255,0,0.25)] group-hover:scale-105 transition-transform" />
+            </a>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-mono text-accent bg-surface border border-border px-2.5 py-1 rounded-full inline-flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span> PRAYAGRAJ, INDIA 🇮🇳
+              </span>
+            </div>
+          </div>
+          <p class="text-sm text-textSecondary leading-relaxed max-w-sm">
+            Content & Distribution Company based in Prayagraj, India. We build original content systems, executive founder media, and compounding media IP for ambitious companies across India.
+          </p>
+          <div class="pt-2 font-mono text-xs text-textMuted space-y-1">
+            <div class="text-accent font-semibold">DIRECT INBOX: HELLO@ZEROUP.STUDIO</div>
+            <div>HQ: Civil Lines & Sangam Hub, Prayagraj, UP, India · 211001</div>
+          </div>
+        </div>
+
+        <!-- Col 2: The System -->
+        <div class="space-y-3">
+          <div class="font-mono text-xs font-bold text-white uppercase tracking-wider">THE SYSTEM</div>
+          <ul class="space-y-2 text-textSecondary">
+            <li><a href="services.html" class="hover:text-accent">01 / Brand Engine</a></li>
+            <li><a href="services.html" class="hover:text-accent">02 / Founder Engine</a></li>
+            <li><a href="services.html" class="hover:text-accent">03 / IP Engine</a></li>
+            <li><a href="services.html" class="hover:text-accent">Distribution Architecture</a></li>
+            <li><a href="index.html#how-it-works" class="hover:text-accent">How It Works</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Real Clients -->
+        <div class="space-y-3">
+          <div class="font-mono text-xs font-bold text-white uppercase tracking-wider">CLIENT PRODUCTIONS</div>
+          <ul class="space-y-2 text-textSecondary">
+            <li>
+              <a href="https://prayagrajrooms.in/" target="_blank" rel="noopener noreferrer" class="hover:text-accent flex items-center gap-1.5 transition-colors">
+                <span>Prayagraj Rooms</span>
+                <i data-lucide="external-link" class="w-3 h-3 text-textMuted"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://vindhyamillets.com/" target="_blank" rel="noopener noreferrer" class="hover:text-accent flex items-center gap-1.5 transition-colors">
+                <span>Vindhya Millets</span>
+                <i data-lucide="external-link" class="w-3 h-3 text-textMuted"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.pathsynclearning.com/" target="_blank" rel="noopener noreferrer" class="hover:text-accent flex items-center gap-1.5 transition-colors">
+                <span>PathSync Learning</span>
+                <i data-lucide="external-link" class="w-3 h-3 text-textMuted"></i>
+              </a>
+            </li>
+            <li>
+              <a href="case-studies.html" class="text-accent hover:underline font-medium pt-1 block">View Empirical Benchmarks →</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Studio & Lab -->
+        <div class="space-y-3">
+          <div class="font-mono text-xs font-bold text-white uppercase tracking-wider">PRAYAGRAJ STUDIO</div>
+          <ul class="space-y-2 text-textSecondary">
+            <li><a href="blogs.html" class="text-accent font-semibold">The Attention Lab</a></li>
+            <li><a href="about.html" class="hover:text-accent">About ZEROUP</a></li>
+            <li><a href="careers.html" class="hover:text-accent">Open Careers (Hiring)</a></li>
+            <li><a href="contact.html" class="hover:text-accent">Start a Conversation</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-textMuted font-mono">
+        <div>© 2026 ZEROUP Systems. Engineered with craft in Prayagraj, Uttar Pradesh, India 🇮🇳.</div>
+        <div class="text-accent flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+          <span>PROPRIETARY MEDIA IP & DISTRIBUTION INFRASTRUCTURE</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+    const mobileBtn = document.getElementById('mobile-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+  </script>
+  <!-- 3D Wave Engine -->
+  <script src="/wave-background.js"></script>
+</body>
+</html>

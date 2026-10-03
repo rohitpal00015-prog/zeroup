@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us — ZEROUP | Content & Distribution Company</title>
+  <!-- Favicon & Vector Brand Icon -->
+  <link rel="icon" type="image/svg+xml" href="/zeroup-icon.svg" />
+  <link rel="apple-touch-icon" href="/zeroup-logo.png" />
+  <meta name="description" content="Start a conversation with ZEROUP. Build an original content IP show, founder media channel, or brand distribution engine in Prayagraj." />
+
+  <!-- Fonts: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            bg: '#08090C',
+            surface: '#0F1117',
+            surfaceHover: '#161922',
+            accent: '#D4FF00',
+            accentHover: '#E2FF33',
+            border: 'rgba(255, 255, 255, 0.08)',
+            borderLight: 'rgba(255, 255, 255, 0.14)',
+            textPrimary: '#FFFFFF',
+            textSecondary: '#94A3B8',
+            textMuted: '#64748B'
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            display: ['"Space Grotesk"', '"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace']
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Three.js for 3D Particle Wave Background Engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <style>
+    ::selection { background-color: #D4FF00; color: #08090C; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #08090C; }
+    ::-webkit-scrollbar-thumb { background: #1E2330; border-radius: 3px; }
+  </style>
+</head>
+<body class="bg-bg text-textPrimary antialiased min-h-screen selection:bg-accent selection:text-bg relative">
+
+  <!-- 3D DYNAMIC PARTICLE WAVE BACKGROUND (Canvas / WebGL Engine) -->
+  <div id="wave-bg" class="fixed inset-0 pointer-events-none z-0 opacity-40 overflow-hidden"></div>
+
+  <!-- CLEAN AIRY NAVBAR -->
+  <header class="sticky top-0 z-50 bg-bg/90 backdrop-blur-xl border-b border-border">
+    <div class="max-w-7xl mx-auto px-6 sm:px-12 h-16 sm:h-18 flex items-center justify-between">
+      
+      <!-- Brand Logo & Vector Icon -->
+      <a href="index.html" class="flex items-center gap-3 sm:gap-3.5 group">
+        <!-- SVG Vector Icon from Second Image -->
+        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-surface/90 border border-accent/40 p-1.5 flex items-center justify-center shadow-[0_0_15px_rgba(212,255,0,0.2)] group-hover:border-accent group-hover:shadow-[0_0_25px_rgba(212,255,0,0.4)] transition-all">
+          <img src="/zeroup-icon.svg" alt="ZEROUP Icon" class="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(212,255,0,0.6)] transform group-hover:scale-110 transition-transform duration-300" />
+        </div>
+        <!-- Wordmark & Tagline from First Image -->
+        <div class="flex flex-col">
+          <div class="flex items-center gap-2">
+            <span class="font-display font-extrabold text-xl sm:text-2xl tracking-tight text-white leading-none">
+              ZEROUP<span class="text-accent">.</span>
+            </span>
+            <span class="text-[9px] font-mono text-accent bg-surface border border-border px-2 py-0.5 rounded-full hidden sm:inline-flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span> INDIA 🇮🇳
+            </span>
+          </div>
+          <span class="font-mono text-[8px] sm:text-[9px] tracking-widest text-textMuted uppercase pt-1 hidden xs:block group-hover:text-accent transition-colors">
+            BUILD ATTENTION. OWN DISTRIBUTION.
+          </span>
+        </div>
+      </a>
+
+      <!-- Desktop Links -->
+      <nav class="hidden md:flex items-center gap-7 text-sm font-medium tracking-normal text-textSecondary">
+        <a href="index.html" class="hover:text-white transition-colors">Home</a>
+        <a href="services.html" class="hover:text-white transition-colors">The System</a>
+        <a href="index.html#clients" class="hover:text-white transition-colors">Clients</a>
+        <a href="case-studies.html" class="hover:text-white transition-colors">Work</a>
+        <a href="blogs.html" class="hover:text-white transition-colors">Lab</a>
+        <a href="about.html" class="hover:text-white transition-colors">About</a>
+        <a href="careers.html" class="hover:text-white transition-colors">Careers</a>
+      </nav>
+
+      <!-- Right Pill Action -->
+      <div class="flex items-center gap-4">
+        <a href="contact.html" class="px-5 py-2.5 rounded-full bg-accent text-bg font-sans text-xs font-extrabold uppercase tracking-wider flex items-center gap-1.5 transition-all shadow-[0_0_20px_rgba(212,255,0,0.25)]">
+          <span>Get in Touch</span>
+          <i data-lucide="arrow-up-right" class="w-3.5 h-3.5 text-bg"></i>
+        </a>
+        <button id="mobile-toggle" class="md:hidden p-2 text-textSecondary hover:text-white border border-border rounded-lg">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Drawer -->
+    <div id="mobile-menu" class="hidden md:hidden border-b border-border bg-surface px-6 py-6 space-y-4 text-sm font-sans">
+      <a href="index.html" class="block text-textSecondary hover:text-white">Home</a>
+      <a href="services.html" class="block text-textSecondary hover:text-white">The System (Three Engines)</a>
+      <a href="index.html#clients" class="block text-textSecondary hover:text-white">Clients & Productions</a>
+      <a href="case-studies.html" class="block text-textSecondary hover:text-white">Work (Case Studies)</a>
+      <a href="blogs.html" class="block text-textSecondary hover:text-white">Lab & Research</a>
+      <a href="about.html" class="block text-textSecondary hover:text-white">About Us</a>
+      <a href="careers.html" class="block text-textSecondary hover:text-white">Careers</a>
+      <a href="contact.html" class="block text-accent font-bold pt-2 border-t border-border">Contact Us →</a>
+    </div>
+  </header>
+
+  <!-- PAGE HEADER (Tight Spacing Below Navbar) -->
+  <section class="pt-10 pb-14 sm:pt-14 sm:pb-18 border-b border-border bg-surface/30">
+    <div class="max-w-7xl mx-auto px-6 sm:px-12 space-y-5">
+      <div class="flex items-center gap-2 font-mono text-xs tracking-wider text-accent uppercase">
+        <span class="w-1.5 h-1.5 rounded-full bg-accent shadow-[0_0_8px_#D4FF00]"></span>
+        <span>GET IN TOUCH · ZEROUP PRAYAGRAJ</span>
+      </div>
+      <h1 class="font-display font-extrabold text-4xl sm:text-6xl lg:text-7xl tracking-tight leading-[1.08] text-white">
+        Start a conversation.<br />
+        <span class="text-accent">Build an asset.</span>
+      </h1>
+      <p class="font-sans text-base sm:text-lg text-textSecondary leading-relaxed max-w-2xl font-normal">
+        Tell us about the show you want to produce, the brand narrative you need to build, or the audience you want to own.
+      </p>
+
+      <!-- Visual Pipeline Flow Pill -->
+      <div class="pt-2">
+        <div class="inline-flex items-center gap-2 sm:gap-2.5 flex-wrap font-mono text-[11px] sm:text-xs text-white bg-surface/90 border border-white/10 px-3.5 py-2 rounded-xl backdrop-blur-md">
+          <span class="text-accent font-bold">STRATEGY</span>
+          <span class="text-textMuted">→</span>
+          <span class="text-white/90">CONTENT</span>
+          <span class="text-textMuted">→</span>
+          <span class="text-white/90">DISTRIBUTION</span>
+          <span class="text-textMuted">→</span>
+          <span class="text-white/90">AUDIENCE</span>
+          <span class="text-textMuted">→</span>
+          <span class="text-accent font-bold">IP</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT FORM & DETAILS -->
+  <section class="py-20 sm:py-28 border-b border-border">
+    <div class="max-w-7xl mx-auto px-6 sm:px-12">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-start">
+        
+        <!-- Left: Studio Details & Quick FAQ -->
+        <div class="lg:col-span-5 space-y-10">
+          
+          <div class="p-8 sm:p-10 rounded-2xl bg-surface border border-border space-y-4">
+            <div class="text-white font-bold font-mono text-sm flex items-center gap-2">
+              <i data-lucide="map-pin" class="w-4 h-4 text-accent"></i> PRAYAGRAJ HQ
+            </div>
+            <p class="text-sm text-textSecondary leading-relaxed">
+              Civil Lines & Sangam Hub, Prayagraj, Uttar Pradesh, India.
+            </p>
+            <p class="text-xs text-textMuted leading-relaxed">
+              We review every inquiry directly and respond within 24 hours with an empirical scope and content roadmap.
+            </p>
+            <div class="font-mono text-accent text-xs pt-3 border-t border-border">
+              DIRECT INBOX: HELLO@ZEROUP.STUDIO
+            </div>
+          </div>
+
+          <!-- Quick FAQ -->
+          <div class="space-y-4 font-sans text-xs">
+            <div class="font-mono text-xs uppercase tracking-wider text-accent font-bold">COMMONLY ASKED QUESTIONS</div>
+            
+            <div class="p-5 rounded-xl bg-surface border border-border space-y-1.5">
+              <strong class="text-white block text-sm">Who owns the video show and media IP?</strong>
+              <span class="text-textSecondary leading-relaxed block">You do. 100%. All show formats, master 4K video exports, project rushes, graphics, and back-catalog media belong completely to your company.</span>
+            </div>
+
+            <div class="p-5 rounded-xl bg-surface border border-border space-y-1.5">
+              <strong class="text-white block text-sm">How does the Founder Engine work?</strong>
+              <span class="text-textSecondary leading-relaxed block">It requires just 60 minutes per month from the founder for a structured Socratic interview. Our studio squad handles research, narrative scripting, cinema post-production, and multi-channel syndication.</span>
+            </div>
+
+            <div class="p-5 rounded-xl bg-surface border border-border space-y-1.5">
+              <strong class="text-white block text-sm">What is the show launch timeline?</strong>
+              <span class="text-textSecondary leading-relaxed block">From initial thesis mapping and show format bible creation to pilot recording and multi-platform syndication rollout, initial series launch takes 3 to 4 weeks.</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Inquiry Form -->
+        <div class="lg:col-span-7 p-8 sm:p-12 rounded-2xl border border-border bg-surface shadow-2xl">
+          <form id="contact-form" onsubmit="handleContact(event)" class="space-y-6 font-sans">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-xs font-mono text-textMuted uppercase mb-2">Your Name *</label>
+                <input type="text" required placeholder="e.g. Vikram Sharma" class="w-full px-5 py-4 bg-bg border border-border rounded-xl text-sm text-white focus:outline-none focus:border-accent" />
+              </div>
+              <div>
+                <label class="block text-xs font-mono text-textMuted uppercase mb-2">Company / Project *</label>
+                <input type="text" required placeholder="e.g. Kinesis Media" class="w-full px-5 py-4 bg-bg border border-border rounded-xl text-sm text-white focus:outline-none focus:border-accent" />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-mono text-textMuted uppercase mb-2">Work Email *</label>
+              <input type="email" required placeholder="name@company.com" class="w-full px-5 py-4 bg-bg border border-border rounded-xl text-sm text-white focus:outline-none focus:border-accent" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-mono text-textMuted uppercase mb-2">What Do You Want To Build? *</label>
+              <select required class="w-full px-5 py-4 bg-bg border border-border rounded-xl text-xs font-mono text-white focus:outline-none focus:border-accent">
+                <option value="content-ip">★ Launch an Original Content IP / Show (IP Engine)</option>
+                <option value="brand-engine">★ Brand Engine (Documentary & Short-Form Video Series)</option>
+                <option value="founder-media">Founder Engine (Executive Media & Thought Leadership)</option>
+                <option value="distribution">Content Syndication & Omnichannel Distribution</option>
+                <option value="careers">Careers & Joining The Studio</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-mono text-textMuted uppercase mb-2">Project Vision & Goals *</label>
+              <textarea rows="4" required placeholder="Tell us about the show you want to launch, your brand narrative, or the audience you want to own..." class="w-full px-5 py-4 bg-bg border border-border rounded-xl text-sm text-white focus:outline-none focus:border-accent resize-none"></textarea>
+            </div>
+
+            <button type="submit" id="contact-btn" class="w-full py-4 bg-accent hover:bg-accentHover text-bg font-sans text-xs font-extrabold uppercase tracking-widest rounded-full transition-all shadow-[0_0_25px_rgba(212,255,0,0.3)] flex items-center justify-center gap-2">
+              <span>Send Transmission</span>
+              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </button>
+          </form>
+
+          <div id="contact-success" class="hidden py-12 text-center space-y-4">
+            <div class="w-12 h-12 bg-accent/20 border border-accent rounded-full flex items-center justify-center mx-auto text-accent">
+              <i data-lucide="check" class="w-6 h-6"></i>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-white">Transmission Received!</h3>
+            <p class="font-sans text-xs text-textSecondary max-w-md mx-auto">
+              Thank you for reaching out. A partner from our Prayagraj studio will review your project and get back to you within 24 hours.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPREHENSIVE PRO FOOTER -->
+  <footer class="py-16 sm:py-20 border-t border-border bg-bg text-xs font-sans text-textSecondary">
+    <div class="max-w-7xl mx-auto px-6 sm:px-12 space-y-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-border">
+        
+        <!-- Col 1: Brand & Mission -->
+        <div class="lg:col-span-2 space-y-4">
+          <div class="space-y-3">
+            <a href="index.html" class="inline-block group">
+              <img src="/zeroup-logo-transparent.png" alt="ZEROUP Logo" class="h-11 sm:h-12 w-auto object-contain drop-shadow-[0_0_15px_rgba(212,255,0,0.25)] group-hover:scale-105 transition-transform" />
+            </a>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-mono text-accent bg-surface border border-border px-2.5 py-1 rounded-full inline-flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span> PRAYAGRAJ, INDIA 🇮🇳
+              </span>
+            </div>
+          </div>
+          <p class="text-sm text-textSecondary leading-relaxed max-w-sm">
+            Content & Distribution Company based in Prayagraj, India. We build original content systems, executive founder media, and compounding media IP for ambitious companies across India.
+          </p>
+          <div class="pt-2 font-mono text-xs text-textMuted space-y-1">
+            <div class="text-accent font-semibold">DIRECT INBOX: HELLO@ZEROUP.STUDIO</div>
+            <div>HQ: Civil Lines & Sangam Hub, Prayagraj, UP, India · 211001</div>
+          </div>
+        </div>
+
+        <!-- Col 2: The System -->
+        <div class="space-y-3">
+          <div class="font-mono text-xs font-bold text-white uppercase tracking-wider">THE SYSTEM</div>
+          <ul class="space-y-2 text-textSecondary">
+            <li><a href="services.html" class="hover:text-accent">01 / Brand Engine</a></li>
+            <li><a href="services.html" class="hover:text-accent">02 / Founder Engine</a></li>
+            <li><a href="services.html" class="hover:text-accent">03 / IP Engine</a></li>
+            <li><a href="services.html" class="hover:text-accent">Distribution Architecture</a></li>
+            <li><a href="index.html#how-it-works" class="hover:text-accent">How It Works</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Real Clients -->
+        <div class="space-y-3">
+          <div class="font-mono text-xs font-bold text-white uppercase tracking-wider">CLIENT PRODUCTIONS</div>
+          <ul class="space-y-2 text-textSecondary">
+            <li>
+              <a href="https://prayagrajrooms.in/" target="_blank" rel="noopener noreferrer" class="hover:text-accent flex items-center gap-1.5 transition-colors">
+                <span>Prayagraj Rooms</span>
+                <i data-lucide="external-link" class="w-3 h-3 text-textMuted"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://vindhyamillets.com/" target="_blank" rel="noopener noreferrer" class="hover:text-accent flex items-center gap-1.5 transition-colors">
+                <span>Vindhya Millets</span>
+                <i data-lucide="external-link" class="w-3 h-3 text-textMuted"></i>
+              </a>
+            </li>
+            <li>
+              <a href="https://www.pathsynclearning.com/" target="_blank" rel="noopener noreferrer" class="hover:text-accent flex items-center gap-1.5 transition-colors">
+                <span>PathSync Learning</span>
+                <i data-lucide="external-link" class="w-3 h-3 text-textMuted"></i>
+              </a>
+            </li>
+            <li>
+              <a href="case-studies.html" class="text-accent hover:underline font-medium pt-1 block">View Empirical Benchmarks →</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Studio & Lab -->
+        <div class="space-y-3">
+          <div class="font-mono text-xs font-bold text-white uppercase tracking-wider">PRAYAGRAJ STUDIO</div>
+          <ul class="space-y-2 text-textSecondary">
+            <li><a href="blogs.html" class="hover:text-accent">The Attention Lab</a></li>
+            <li><a href="about.html" class="hover:text-accent">About ZEROUP</a></li>
+            <li><a href="careers.html" class="hover:text-accent">Open Careers (Hiring)</a></li>
+            <li><a href="contact.html" class="text-accent font-semibold">Start a Conversation</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-textMuted font-mono">
+        <div>© 2026 ZEROUP Systems. Engineered with craft in Prayagraj, Uttar Pradesh, India 🇮🇳.</div>
+        <div class="text-accent flex items-center gap-2">
+          <span class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></span>
+          <span>PROPRIETARY MEDIA IP & DISTRIBUTION INFRASTRUCTURE</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+    const mobileBtn = document.getElementById('mobile-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileBtn && mobileMenu) {
+      mobileBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+
+    function handleContact(e) {
+      e.preventDefault();
+      const form = document.getElementById('contact-form');
+      const btn = document.getElementById('contact-btn');
+      const success = document.getElementById('contact-success');
+      btn.disabled = true;
+      btn.innerHTML = '<span>Processing Transmission...</span>';
+      setTimeout(() => {
+        form.classList.add('hidden');
+        success.classList.remove('hidden');
+        lucide.createIcons();
+      }, 700);
+    }
+  </script>
+  <!-- 3D Wave Engine -->
+  <script src="/wave-background.js"></script>
+</body>
+</html>
