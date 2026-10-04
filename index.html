@@ -67,60 +67,7 @@
     .audio-bar:nth-child(3) { animation-delay: 0.3s; }
     .audio-bar:nth-child(4) { animation-delay: 0.45s; }
 
-    /* 3D Book Engine */
-    .book-stage {
-      perspective: 2200px;
-    }
-    .book-wrapper {
-      transform-style: preserve-3d;
-      transition: transform 0.9s cubic-bezier(0.25, 1, 0.3, 1);
-      transform: translateX(-190px);
-    }
-    @media (max-width: 640px) {
-      .book-wrapper {
-        transform: translateX(-160px);
-      }
-    }
-    .book-stage:hover .book-wrapper,
-    .book-stage.is-open .book-wrapper {
-      transform: translateX(0px);
-    }
-    .book-leaf {
-      transform-style: preserve-3d;
-      transform-origin: left center;
-      transition: transform 0.95s cubic-bezier(0.25, 1, 0.3, 1), box-shadow 0.8s ease;
-    }
-    .book-stage:hover .book-leaf,
-    .book-stage.is-open .book-leaf {
-      transform: rotateY(-180deg);
-      box-shadow: -20px 20px 50px rgba(0, 0, 0, 0.9);
-    }
-    .left-base-page {
-      transition: opacity 0.6s ease;
-      opacity: 0;
-    }
-    .book-stage:hover .left-base-page,
-    .book-stage.is-open .left-base-page {
-      opacity: 1;
-    }
-    .face-front {
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      z-index: 2;
-    }
-    .face-back {
-      backface-visibility: hidden;
-      -webkit-backface-visibility: hidden;
-      transform: rotateY(180deg);
-      z-index: 1;
-    }
-    .gilded-edges {
-      box-shadow: 
-        inset 0 0 10px rgba(0,0,0,0.3),
-        3px 3px 0 #C5A059,
-        5px 5px 0 #8C6D31,
-        7px 7px 20px rgba(0,0,0,0.7);
-    }
+
   
 
 
@@ -469,178 +416,87 @@
   </section>
 
   <!-- ========================================================
-       02 THE 3D INTERACTIVE DOSSIER / BOOK (FLIP OPEN ON HOVER)
+       02 CLIENT PRODUCTIONS & ACTIVE PARTNERS
        ======================================================== -->
-  <section id="dossier" class="py-12 sm:py-16 border-b border-border relative overflow-hidden bg-surface/20 scroll-mt-20">
-    <div id="clients" class="absolute -top-24"></div>
+  <section id="clients" class="py-16 sm:py-24 border-b border-border relative bg-surface/20 scroll-mt-20">
     <div class="max-w-7xl mx-auto px-6 sm:px-12">
-      <!-- 3D Perspective Stage -->
-      <div class="w-full flex justify-center py-4 sm:py-8 overflow-x-auto sm:overflow-visible">
-        <div id="book-stage" class="book-stage w-full max-w-[820px] flex justify-center cursor-pointer select-none">
-          
-          <!-- Book Wrapper (Smooth Center Shift) -->
-          <div class="book-wrapper relative w-[720px] sm:w-[760px] h-[500px] sm:h-[540px] flex">
-
-            <!-- Left Base Page (Revealed underneath leaf when open) -->
-            <div class="left-base-page w-1/2 h-full bg-[#111318] rounded-l-2xl border-l-4 border-y border-[#262B38] relative flex flex-col justify-between p-7 text-[#1A1A1A]">
-              <div class="text-[10px] font-mono text-white/30 uppercase tracking-widest">ZEROUP ARCHIVE BASE · REEL 01</div>
-              <div class="my-auto text-center font-mono text-xs text-white/40 space-y-3">
-                <div class="w-14 h-14 mx-auto rounded-xl border border-white/20 bg-surface/80 p-2.5 flex items-center justify-center shadow-lg">
-                  <img src="/zeroup-icon.svg" alt="ZEROUP Vector Icon" class="w-full h-full object-contain filter drop-shadow-[0_0_10px_rgba(212,255,0,0.5)]" />
-                </div>
-                <div class="text-[11px] text-white/70 font-semibold tracking-wider">ZEROUP MEDIA ARCHIVE</div>
-              </div>
-              <div class="text-[9px] font-mono text-white/20">EST. PRAYAGRAJ · 2026</div>
-            </div>
-
-            <!-- Right Base Page (Client Productions with Live Links) -->
-            <div class="w-1/2 h-full bg-[#FAF7EF] rounded-r-2xl border-r-4 border-y border-[#DDD7C8] relative flex flex-col justify-between p-6 sm:p-8 text-[#14171F] gilded-edges">
-              <!-- Left Spine Shadow -->
-              <div class="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-black/25 to-transparent pointer-events-none z-10"></div>
-              
-              <!-- Header -->
-              <div class="flex items-center justify-between border-b border-[#E2DCCE] pb-3 text-[10px] font-mono text-[#666]">
-                <span class="tracking-widest font-bold text-[#14171F]">CHAPTER II: ACTIVE PRODUCTIONS</span>
-                <span>PAGE 02 / 24FPS</span>
-              </div>
-
-              <!-- 3 Real Client Spotlights -->
-              <div class="space-y-3.5 my-auto">
-                
-                <!-- Client 01 -->
-                <a href="https://prayagrajrooms.in/" target="_blank" rel="noopener noreferrer" class="block p-3 rounded-lg bg-[#F0ECE1] hover:bg-[#E8E2D4] border border-[#DDD7C8] transition-all group">
-                  <div class="flex items-center justify-between text-[10px] font-mono">
-                    <span class="text-[#08090C] font-extrabold uppercase tracking-wide">01 · Prayagraj Rooms</span>
-                    <span class="text-[#888] group-hover:text-black">prayagrajrooms.in ↗</span>
-                  </div>
-                  <p class="text-xs text-[#444] mt-1 leading-snug">
-                    Student & room discovery walkthroughs. Organic docu-series eliminating broker ad spend.
-                  </p>
-                </a>
-
-                <!-- Client 02 -->
-                <a href="https://vindhyamillets.com/" target="_blank" rel="noopener noreferrer" class="block p-3 rounded-lg bg-[#EBF7C6] hover:bg-[#E3F2B3] border border-[#C6DC82] transition-all group">
-                  <div class="flex items-center justify-between text-[10px] font-mono">
-                    <span class="text-[#1A3300] font-extrabold uppercase tracking-wide">02 · Vindhya Millets</span>
-                    <span class="text-[#3E6600] group-hover:text-[#1A3300]">vindhyamillets.com ↗</span>
-                  </div>
-                  <p class="text-xs text-[#2A4405] mt-1 leading-snug">
-                    Farm-to-table origin docu-series & health video IP building loyal organic buyers.
-                  </p>
-                </a>
-
-                <!-- Client 03 -->
-                <a href="https://www.pathsynclearning.com/" target="_blank" rel="noopener noreferrer" class="block p-3 rounded-lg bg-[#F0ECE1] hover:bg-[#E8E2D4] border border-[#DDD7C8] transition-all group">
-                  <div class="flex items-center justify-between text-[10px] font-mono">
-                    <span class="text-[#08090C] font-extrabold uppercase tracking-wide">03 · PathSync Learning</span>
-                    <span class="text-[#888] group-hover:text-black">pathsynclearning.com ↗</span>
-                  </div>
-                  <p class="text-xs text-[#444] mt-1 leading-snug">
-                    Founder executive podcast & career framework IP attracting high-intent learners.
-                  </p>
-                </a>
-
-              </div>
-
-              <!-- Page Footer & Silk Ribbon -->
-              <div class="pt-3 border-t border-[#E2DCCE] flex items-center justify-between text-[10px] font-mono text-[#777]">
-                <span>© ZEROUP SYSTEMS · MEDIA IP</span>
-                <span class="font-bold text-[#14171F]">PRAYAGRAJ, INDIA 🇮🇳</span>
-              </div>
-
-              <!-- Dangling Ribbon Bookmark -->
-              <div class="absolute -bottom-6 right-10 w-4 h-12 bg-accent shadow-md transform rotate-6 border-x border-black/15 pointer-events-none"></div>
-            </div>
-
-            <!-- The Flipping 3D Leaf (Cover on Front / Script Manifesto on Back) -->
-            <div class="book-leaf absolute inset-y-0 right-0 w-1/2 h-full z-20">
-              
-              <!-- FRONT FACE: Luxury Leather Hardcover (Visible When Closed) -->
-              <div class="face-front absolute inset-0 w-full h-full bg-[#0D0F14] rounded-r-2xl border-r-4 border-y border-[#262B38] flex flex-col justify-between p-7 sm:p-9 text-white shadow-2xl overflow-hidden">
-                <!-- Leather Vignette -->
-                <div class="absolute inset-0 bg-radial-gradient from-transparent to-black/70 pointer-events-none"></div>
-                <!-- Hinge Crease -->
-                <div class="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
-
-                <!-- Top Stamped Header -->
-                <div class="relative z-10 flex items-center justify-between border-b border-white/10 pb-3">
-                  <div class="flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-accent shadow-[0_0_8px_#D4FF00]"></span>
-                    <span class="font-mono text-[10px] text-white/60 tracking-widest uppercase">DIRECTOR'S DOSSIER</span>
-                  </div>
-                  <span class="font-mono text-[10px] text-accent tracking-widest uppercase font-bold">VOL. 01</span>
-                </div>
-
-                <!-- Center Gold Emblem & Foil Title -->
-                <div class="relative z-10 text-center space-y-4 my-auto">
-                  <div class="w-18 h-18 sm:w-20 sm:h-20 mx-auto rounded-2xl border-2 border-accent/40 bg-black/60 p-2.5 relative shadow-[0_0_30px_rgba(212,255,0,0.3)] flex items-center justify-center">
-                    <img src="/zeroup-icon.svg" alt="ZEROUP Vector Icon" class="w-full h-full object-contain filter drop-shadow-[0_0_12px_#D4FF00]" />
-                  </div>
-
-                  <h3 class="font-display font-extrabold text-2xl sm:text-3xl text-white tracking-tight leading-tight">
-                    ZEROUP<span class="text-accent">.</span><br />
-                    <span class="text-xs sm:text-sm font-mono font-normal tracking-widest text-white/70 uppercase">THE MEDIA IP COMPENDIUM</span>
-                  </h3>
-
-                  <p class="font-sans text-xs text-white/60 max-w-[240px] mx-auto leading-relaxed">
-                    Why companies must own distribution instead of renting attention.
-                  </p>
-                </div>
-
-                <!-- Bottom Hover Cue -->
-                <div class="relative z-10 pt-3 border-t border-white/10 flex items-center justify-between text-[10px] font-mono">
-                  <span class="text-white/40">PRAYAGRAJ, INDIA 🇮🇳</span>
-                  <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent text-bg font-extrabold tracking-wider animate-pulse">
-                    <span>HOVER TO OPEN</span>
-                    <span>→</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- BACK FACE: Inside Left Page (Film Script Manifesto) -->
-              <div class="face-back absolute inset-0 w-full h-full bg-[#FAF7EF] rounded-l-2xl border-l-4 border-y border-[#DDD7C8] flex flex-col justify-between p-6 sm:p-8 text-[#14171F] gilded-edges">
-                <!-- Right Spine Shadow -->
-                <div class="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-black/25 to-transparent pointer-events-none z-10"></div>
-
-                <!-- Top Script Header -->
-                <div class="flex items-center justify-between border-b border-[#E2DCCE] pb-3 text-[10px] font-mono text-[#666]">
-                  <span class="font-bold text-[#14171F]">SCENE: BHARAT / TAKE: 01</span>
-                  <span>ROLL: 24 FPS</span>
-                </div>
-
-                <!-- Screenplay Body -->
-                <div class="space-y-3 my-auto font-mono text-xs text-[#2A2D35] leading-relaxed">
-                  <div class="text-[10px] text-[#888] uppercase tracking-wider">EXT. DIGITAL ATTENTION LANDSCAPE — DAY</div>
-                  
-                  <p>
-                    <span class="font-bold text-[#08090C]">THE CONVENTIONAL TRAP:</span><br />
-                    Brands spend lakhs on performance ads. The exact second you pause spend, you vanish into thin air.
-                  </p>
-
-                  <p class="bg-[#F2ECE1] p-2.5 rounded border border-[#E0D9CB]">
-                    <span class="font-bold text-[#08090C]">ZEROUP PHILOSOPHY:</span><br />
-                    Media IP compounds forever. Original shows, docu-series, and executive narratives build audience trust that you own outright.
-                  </p>
-
-                  <!-- Clapper Stamp -->
-                  <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-[#08090C] text-accent text-[9px] font-bold tracking-widest uppercase">
-                    <span>PIPELINE: STRATEGY → CONTENT → IP</span>
-                  </div>
-                </div>
-
-                <!-- Bottom Footer -->
-                <div class="pt-3 border-t border-[#E2DCCE] flex items-center justify-between text-[10px] font-mono text-[#777]">
-                  <span>PAGE 01 / PROPRIETARY</span>
-                  <span class="font-bold text-[#14171F]">DIRECTOR'S LOG</span>
-                </div>
-              </div>
-
-            </div>
-
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+        <div>
+          <div class="text-xs font-mono text-accent uppercase tracking-widest flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-accent animate-pulse"></span>
+            ACTIVE PARTNERS · INDIA 🇮🇳
           </div>
+          <h2 class="font-display font-extrabold text-3xl sm:text-5xl text-white tracking-tight mt-2">
+            Brands building owned media with <span class="text-accent">ZEROUP.</span>
+          </h2>
         </div>
+        <p class="font-sans text-sm text-textSecondary max-w-md">
+          Real businesses replacing rented third-party ad volatility with proprietary content and high-retention video distribution.
+        </p>
       </div>
 
+      <!-- 3 Real Client Production Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+        <!-- Client 01: Prayagraj Rooms -->
+        <a href="https://prayagrajrooms.in/" target="_blank" rel="noopener noreferrer" class="p-8 rounded-2xl bg-surface border border-border hover:border-accent transition-all duration-300 group flex flex-col justify-between hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(212,255,0,0.1)]">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between font-mono text-xs">
+              <span class="text-accent font-bold tracking-wider">01 // DISCOVERY MEDIA</span>
+              <span class="text-textMuted group-hover:text-accent transition-colors">prayagrajrooms.in ↗</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-white group-hover:text-accent transition-colors">
+              Prayagraj Rooms
+            </h3>
+            <p class="font-sans text-sm text-textSecondary leading-relaxed">
+              Student & room discovery walkthroughs. Organic video docu-series eliminating broker dependency and recurring ad spend.
+            </p>
+          </div>
+          <div class="pt-6 mt-6 border-t border-border flex items-center justify-between font-mono text-xs">
+            <span class="text-accent font-bold">4.6× INQUIRY LIFT</span>
+            <span class="text-textMuted">OWNED VIDEO IP</span>
+          </div>
+        </a>
+
+        <!-- Client 02: Vindhya Millets -->
+        <a href="https://vindhyamillets.com/" target="_blank" rel="noopener noreferrer" class="p-8 rounded-2xl bg-surface border border-border hover:border-accent transition-all duration-300 group flex flex-col justify-between hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(212,255,0,0.1)]">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between font-mono text-xs">
+              <span class="text-accent font-bold tracking-wider">02 // HEALTH & ORIGIN IP</span>
+              <span class="text-textMuted group-hover:text-accent transition-colors">vindhyamillets.com ↗</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-white group-hover:text-accent transition-colors">
+              Vindhya Millets
+            </h3>
+            <p class="font-sans text-sm text-textSecondary leading-relaxed">
+              Farm-to-table origin docu-series & nutritional video IP building enduring brand equity and loyal organic buyers.
+            </p>
+          </div>
+          <div class="pt-6 mt-6 border-t border-border flex items-center justify-between font-mono text-xs">
+            <span class="text-accent font-bold">ORGANIC CONVERSION</span>
+            <span class="text-textMuted">FARM DOCU-SERIES</span>
+          </div>
+        </a>
+
+        <!-- Client 03: PathSync Learning -->
+        <a href="https://www.pathsynclearning.com/" target="_blank" rel="noopener noreferrer" class="p-8 rounded-2xl bg-surface border border-border hover:border-accent transition-all duration-300 group flex flex-col justify-between hover:-translate-y-1 hover:shadow-[0_10px_30px_rgba(212,255,0,0.1)]">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between font-mono text-xs">
+              <span class="text-accent font-bold tracking-wider">03 // EXECUTIVE EDUCATION</span>
+              <span class="text-textMuted group-hover:text-accent transition-colors">pathsynclearning.com ↗</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-white group-hover:text-accent transition-colors">
+              PathSync Learning
+            </h3>
+            <p class="font-sans text-sm text-textSecondary leading-relaxed">
+              Founder executive podcast & career framework IP attracting high-intent learners and enterprise talent.
+            </p>
+          </div>
+          <div class="pt-6 mt-6 border-t border-border flex items-center justify-between font-mono text-xs">
+            <span class="text-accent font-bold">AUTHORITY ENGINE</span>
+            <span class="text-textMuted">EXECUTIVE PODCAST</span>
+          </div>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -1423,43 +1279,6 @@
   <script src="/soundtrack.js"></script>
   <!-- Studio Interactive Experience Engine (Cursor, 3D Parallax, Modals) -->
   <script src="/studio-interactions.js"></script>
-  <script>
-    // 3D Book Pin & SFX Interactive Handlers
-    const stage = document.getElementById('book-stage');
-    const pinBtn = document.getElementById('toggle-book-pin');
-    const pinText = document.getElementById('pin-text');
-    let isPinned = false;
 
-    if (pinBtn && stage) {
-      pinBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        isPinned = !isPinned;
-        if (isPinned) {
-          stage.classList.add('is-open');
-          pinText.textContent = 'CLOSE BOOK ✕';
-          if (window.ZEROUP_AUDIO) window.ZEROUP_AUDIO.playPageFlip();
-        } else {
-          stage.classList.remove('is-open');
-          pinText.textContent = 'PIN BOOK OPEN 📖';
-          if (window.ZEROUP_AUDIO) window.ZEROUP_AUDIO.playPageFlip();
-        }
-      });
-
-      stage.addEventListener('mouseenter', () => {
-        if (!isPinned && window.ZEROUP_AUDIO) {
-          window.ZEROUP_AUDIO.playPageFlip();
-        }
-      });
-
-      stage.addEventListener('click', (e) => {
-        // If clicking a link inside book, let link work
-        if (e.target.closest('a')) return;
-        isPinned = !isPinned;
-        stage.classList.toggle('is-open', isPinned);
-        pinText.textContent = isPinned ? 'CLOSE BOOK ✕' : 'PIN BOOK OPEN 📖';
-        if (window.ZEROUP_AUDIO) window.ZEROUP_AUDIO.playPageFlip();
-      });
-    }
-  </script>
 </body>
 </html>
