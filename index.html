@@ -244,7 +244,9 @@
 
           <!-- Blackboard Clipboard Sketchbook (Angled lower-left) -->
           <div id="hero-clipboard-trigger" class="interactive-obj w-48 sm:w-56 lg:w-60 cursor-pointer transform -rotate-6 hover:rotate-0 hover:scale-105 transition-all duration-300 z-30 pt-1" data-cursor="STORY" title="Click to open Studio Story">
-            <img src="/asset-clipboard.png" alt="Ideas Plans Products Sketchbook" class="w-full h-auto object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.85)]" />
+            <div class="rounded-2xl overflow-hidden shadow-[0_20px_40px_rgba(0,0,0,0.85)] border border-white/10 group">
+              <img src="/asset-clipboard.png" alt="Ideas Plans Products Sketchbook" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
             <div class="font-mono text-[9px] text-accent/80 tracking-wider text-center pt-1 opacity-0 group-hover:opacity-100 transition-opacity">
               [NOTEBOOK · CLICK TO EXPLORE STORY]
             </div>
@@ -357,24 +359,28 @@
           <!-- Studio Headphones & Laptop Device Cluster -->
           <div class="flex items-center justify-end gap-2.5 w-full">
             
-            <!-- Green Studio Headphones -->
+            <!-- Studio Headphones -->
             <div id="hero-headphones-trigger" class="interactive-obj w-32 sm:w-36 lg:w-40 cursor-pointer transform -rotate-12 hover:rotate-0 hover:scale-105 transition-all duration-300 relative z-30" data-cursor="PLAY AUDIO" title="Studio Headphones · Click to toggle Ambient Soundtrack">
               <!-- Sound-Wave Ripple Rings -->
               <div class="sound-wave-circle absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 rounded-full border border-accent/60 pointer-events-none opacity-0 group-hover:opacity-100"></div>
               <div class="headphone-wave absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full border border-accent/40 pointer-events-none opacity-0"></div>
-              <img src="/asset-headphones.png" alt="Green Studio Headphones" class="w-full h-auto object-contain filter drop-shadow-[0_20px_45px_rgba(0,0,0,0.95)]" />
+              <img src="/asset-headphones.png" alt="Studio Headphones" class="w-full h-auto object-contain filter drop-shadow-[0_20px_45px_rgba(0,0,0,0.95)]" />
             </div>
 
             <!-- Laptop Surface with Stickers -->
             <div id="hero-book-trigger" class="interactive-obj w-28 sm:w-32 cursor-pointer transform rotate-6 hover:rotate-0 hover:scale-105 transition-all duration-300 z-25" data-cursor="OPEN BOOK" title="Click to open Studio Book">
-              <img src="/asset-laptop.png" alt="ZeroUp Studio Notebook with stickers" class="w-full h-auto object-contain filter drop-shadow-[0_15px_30px_rgba(0,0,0,0.85)]" />
+              <div class="rounded-xl overflow-hidden shadow-[0_15px_30px_rgba(0,0,0,0.85)] border border-white/10 group">
+                <img src="/asset-laptop.png" alt="ZeroUp Studio Notebook with stickers" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500" />
+              </div>
             </div>
 
           </div>
 
           <!-- Lime Sticky Note (Bottom Right) -->
           <div id="hero-sticky-trigger" class="interactive-obj w-24 sm:w-28 cursor-pointer transform rotate-6 hover:rotate-2 hover:scale-110 transition-all duration-300 z-30" data-cursor="READ NOTE" title="Sticky Note">
-            <img src="/asset-sticky-note.png" alt="Same Dream Bigger Plans Sticky Note" class="w-full h-auto object-contain filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.85)]" />
+            <div class="rounded-xl overflow-hidden shadow-[0_12px_24px_rgba(0,0,0,0.85)] border border-white/10 group">
+              <img src="/asset-sticky-note.png" alt="Same Dream Bigger Plans Sticky Note" class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500" />
+            </div>
           </div>
 
         </div>
